@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="WM904/WM904.vcxproj" />
+  <Project Path="WM904/WM904.vcxproj" Id="77bdcc40-27e8-4089-9bd7-c59e6a49edc8" />
 </Solution>
