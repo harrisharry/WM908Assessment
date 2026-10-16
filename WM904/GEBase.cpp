@@ -34,6 +34,11 @@ int main() {
 
     std::cout << division.x << "," << division.y << endl;
 
+    Vector2 multiplied = randomVec1 * 2;
+    std::cout << multiplied.x << "," << multiplied.y << endl;
+
+
+ 
     while (running)
     {
         // Check for input (key presses or window events)

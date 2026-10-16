@@ -39,6 +39,10 @@ namespace Mathf
 		{
 			return Vector2(x / denominator, y / denominator);
 		}
+		Vector2 operator*(const float multiplier)
+		{
+			return Vector2(x * multiplier, y * multiplier);
+		}
 	};
 
 	class Vector3 {
