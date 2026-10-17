@@ -19,13 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\GEBase.cpp" />
-    <ClCompile Include="..\Mathf.cpp" />
+    <ClCompile Include="GEBase.cpp" />
+    <ClCompile Include="GraphicsEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Colour.h" />
-    <ClInclude Include="..\GamesEngineeringBase.h" />
-    <ClInclude Include="..\Mathf.h" />
+    <ClInclude Include="Colour.h" />
+    <ClInclude Include="GamesEngineeringBase.h" />
+    <ClInclude Include="GraphicsEngine.h" />
+    <ClInclude Include="Mathf.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
@@ -120,6 +121,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)WM904</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
