@@ -4,7 +4,7 @@
 #include "Mathf.h"
 #include "GraphicsEngine.h"
 using namespace std;
-using namespace Mathf;
+using namespace CustomMath;
 
 
 int main() {
@@ -20,6 +20,11 @@ int main() {
         cout << "Image data is null.\n";
     }
 
+    Vector3 vec1(1.0f, 1.0f, 1.0f);
+    Vector3 vec2(2.0f, 2.0f, 2.0f);
+
+
+    //Vector3::Dot();
 
     GraphicsEngine graphics;
 

@@ -6,21 +6,26 @@
 /// <param name="sizeY"></param>
 void GraphicsEngine::StartUp(int sizeX, int sizeY) {
 
+
+
 	//Create a canvas.
 	if (_mainCanvas == NULL) {
 		_mainCanvas = new Window(); //Store the newly created window if there wasn't already one.
 	}
 
 	_mainCanvas->create(sizeX, sizeY, "Tiles"); //Create the required window with default size and name.
-	SetBackground(defaultColour);
+	_shapeManager = new ShapeDrawer2D(_mainCanvas);
 
 }
 void GraphicsEngine::Update() {
 	//Clears the entire screen before continuing.
+	Shapes::Rectangle rec(40.0f);
+	rec.Position(_mainCanvas->getWidth() * 0.5f, _mainCanvas->getHeight() * 0.5f,0);
 	_mainCanvas->clear();
 	SetBackground(defaultColour);
 	//Any drawing required will go here.
-
+	
+	_shapeManager->Draw(rec);
 
 	//Presents the canvas.
 	

@@ -27,6 +27,8 @@
     <ClInclude Include="GamesEngineeringBase.h" />
     <ClInclude Include="GraphicsEngine.h" />
     <ClInclude Include="Mathf.h" />
+    <ClInclude Include="Shape.h" />
+    <ClInclude Include="ShapeDrawer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
