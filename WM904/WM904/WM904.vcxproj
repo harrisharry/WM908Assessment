@@ -19,16 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GEBase.cpp" />
-    <ClCompile Include="GraphicsEngine.cpp" />
+    <ClInclude Include="src\Colour.h" />
+    <ClInclude Include="src\DStructures.h" />
+    <ClInclude Include="src\GamesEngineeringBase.h" />
+    <ClInclude Include="src\GraphicsEngine.h" />
+    <ClInclude Include="src\Mathf.h" />
+    <ClInclude Include="src\Shape.h" />
+    <ClInclude Include="src\ShapeDrawer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Colour.h" />
-    <ClInclude Include="GamesEngineeringBase.h" />
-    <ClInclude Include="GraphicsEngine.h" />
-    <ClInclude Include="Mathf.h" />
-    <ClInclude Include="Shape.h" />
-    <ClInclude Include="ShapeDrawer.h" />
+    <ClCompile Include="src\GEBase.cpp" />
+    <ClCompile Include="src\GraphicsEngine.cpp" />
+    <ClCompile Include="src\Mathf.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>

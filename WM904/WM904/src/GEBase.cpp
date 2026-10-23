@@ -3,6 +3,7 @@
 #include "Colour.h"
 #include "Mathf.h"
 #include "GraphicsEngine.h"
+#include <filesystem>
 using namespace std;
 using namespace CustomMath;
 
@@ -11,14 +12,7 @@ int main() {
 
     // Create a canvas window with dimensions 1024x768 and title “Tiles"
     bool running = true; // Variable to control the main loop's running state.
-    
-    Image testImage;
 
-
-    testImage.load("C:/Users/u5843352/Github/WM908Assessment/WM904/TestSprite.png");
-    if (testImage.data == NULL) {
-        cout << "Image data is null.\n";
-    }
 
     Vector3 vec1(1.0f, 1.0f, 1.0f);
     Vector3 vec2(2.0f, 2.0f, 2.0f);
@@ -29,6 +23,12 @@ int main() {
     GraphicsEngine graphics;
 
     graphics.StartUp();
+
+    Image test;
+    test.load("./Resources/TestSprite.png");
+
+    if (test.data != nullptr)
+        cout << "Image loaded data\n";
 
     //Main loop of the engine / system.
     while (running)
