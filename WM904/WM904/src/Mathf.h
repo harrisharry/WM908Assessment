@@ -50,7 +50,7 @@ namespace CustomMath
 		{
 			return Vector2(x * multiplier, y * multiplier);
 		}
-		Vector2 operator+= (const Vector2 vec2) {
+		void operator+= (const Vector2 vec2) {
 			
 			x += vec2.x;
 			y += vec2.y;
@@ -89,6 +89,9 @@ namespace CustomMath
 		Vector3 operator+ (const Vector3 vec) {
 
 			return Vector3(x + vec.x, y + vec.y, z + vec.z);
+		}
+		Vector3 operator+ (const Vector2 vec) {
+			return Vector3(x + vec.x, y + vec.y, z);
 		}
 		Vector3 operator-(const Vector3 vec)
 		{

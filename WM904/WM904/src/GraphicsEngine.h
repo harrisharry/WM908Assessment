@@ -14,7 +14,7 @@ private:
 	ShapeDrawer2D* _shapeManager;
 	void SetBackground(Colour::Colour colour);
 public:
-	void StartUp(int sizeX = 1204, int sizeY = 768);
+	void StartUp(int sizeX = 2048, int sizeY = 1080 );
 	void Update();
 	void DrawImage(const GamesEngineeringBase::Image* imageToDraw, CustomMath::Vector3 position);
 	bool ShouldClose();

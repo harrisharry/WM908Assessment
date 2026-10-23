@@ -5,6 +5,7 @@
 
 
 GamesEngineeringBase::Image* sprite1 = new GamesEngineeringBase::Image();
+Hero* hero = new Hero();
 
 /// <summary>
 /// Called when starting up the graphics engine. Default creates a window.
@@ -28,7 +29,7 @@ void GraphicsEngine::StartUp(int sizeX, int sizeY) {
 
 	//GamesEngineeringBase::Image* sprite1 = new GamesEngineeringBase::Image();
 	sprite1->load("./Resources/TestSprite.png");
-
+	hero->SetSprite(sprite1);
 	/*Create entities here to be drawn in update.
 	In future this would be stored in the actual main, then passed to the graphics engine to render sprites at the required positions*/
 	
@@ -40,11 +41,26 @@ void GraphicsEngine::Update() {
 	_mainCanvas->clear();
 	SetBackground(defaultColour);
 
+	//Get input for this frame
+	CustomMath::Vector2 totalInput = CustomMath::Vector2::Zero();
+	if (_mainCanvas->keyPressed('W'))
+		totalInput += CustomMath::Vector2( 0, -1);
+	if (_mainCanvas->keyPressed('S'))
+		totalInput += CustomMath::Vector2( 0,1);
+	if (_mainCanvas->keyPressed('A'))
+		totalInput += CustomMath::Vector2(-1, 0);
+	if (_mainCanvas->keyPressed('D'))
+		totalInput += CustomMath::Vector2( 1, 0);
+
+	hero->SetInputVec(totalInput);
+
+	hero->Update(0.01667);
 
 	//Any drawing required will go here.
-	DrawImage(sprite1,CustomMath::Vector3::Zero() - CustomMath::Vector3(0,0,0));
-	DrawImage(sprite1,CustomMath::Vector3::Zero() - CustomMath::Vector3(-250,-250,0));
-
+	//DrawImage(sprite1,CustomMath::Vector3::Zero() - CustomMath::Vector3(0,0,0));
+	//DrawImage(sprite1,CustomMath::Vector3::Zero() - CustomMath::Vector3(-250,-250,0));
+	DrawImage(hero->GetSprite(),hero->Position());
+	
 	//Presents the canvas.
 	
 	
@@ -75,7 +91,7 @@ void GraphicsEngine::DrawImage(const GamesEngineeringBase::Image* imageToDraw, C
 
 			if (imageToDraw->channels == 3 || imageToDraw->data[pixelIndex + 3] != 0)
 			{
-				std::cout << "X is " << x << " and Y is " << y << std::endl;
+				//std::cout << "X is " << x << " and Y is " << y << std::endl;
 				_mainCanvas->draw(x + position.x,y + position.y,&imageToDraw->data[pixelIndex]);
 			}
 		}
