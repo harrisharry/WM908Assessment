@@ -16,6 +16,7 @@ private:
 public:
 	void StartUp(int sizeX = 1204, int sizeY = 768);
 	void Update();
+	void DrawImage(const GamesEngineeringBase::Image* imageToDraw, CustomMath::Vector3 position);
 	bool ShouldClose();
 	//void DrawSprite(Here will be a Sprite class.);// Function to draw a given sprite. Will be usefull when implementing game objects etc.
 };

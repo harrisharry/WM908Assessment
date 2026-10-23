@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="src\Colour.h" />
     <ClInclude Include="src\DStructures.h" />
+    <ClInclude Include="src\Entity.h" />
     <ClInclude Include="src\GamesEngineeringBase.h" />
     <ClInclude Include="src\GraphicsEngine.h" />
     <ClInclude Include="src\Mathf.h" />

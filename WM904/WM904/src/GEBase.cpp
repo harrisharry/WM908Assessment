@@ -24,11 +24,6 @@ int main() {
 
     graphics.StartUp();
 
-    Image test;
-    test.load("./Resources/TestSprite.png");
-
-    if (test.data != nullptr)
-        cout << "Image loaded data\n";
 
     //Main loop of the engine / system.
     while (running)
