@@ -72,7 +72,7 @@ class Hero : public GameObject //Base hero class, implements health speed and mo
 protected:
 	int _maxHealth = 100;
 	float _health;
-	float speed = 100.0f;
+	float speed = 2.0f;
 	CustomMath::Vector2 inputVec = CustomMath::Vector2::Zero();
 
 public:

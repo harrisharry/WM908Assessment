@@ -1,9 +1,10 @@
 #pragma once
 #include <cmath>
+#include <iostream>
+#include <string>
 #define PI = 3.14;
 namespace CustomMath
 {
-
 	class Vector2 {
 	public:
 		float x;
@@ -21,7 +22,6 @@ namespace CustomMath
 			x = xValue;
 			y = yValue;
 		}
-
 
 		
 
@@ -55,16 +55,25 @@ namespace CustomMath
 			x += vec2.x;
 			y += vec2.y;
 		}
+		
 
 		float Length() {
 
 			return sqrt(pow(x,2) + pow(y,2));
 		}
+		std::string To_String() {
+			std::string xString = std::to_string(x);
+			std::string yString = std::to_string(y);
+
+			
+
+			return "{" + xString + ", " + yString + "}";
+		}
 	};
 
 	class Vector3 {
 	public: 
-		float x;
+		float x; 
 		float y;
 		float z;
 
@@ -79,6 +88,7 @@ namespace CustomMath
 			y = 0.0f;
 			z = 0.0f;
 		}
+		Vector3(const Vector2& vec) : x(vec.x), y(vec.y), z(0.0f) {}
 		
 		static Vector3 Zero() {
 			return Vector3(0.0f, 0.0f, 0.0f);
@@ -97,6 +107,9 @@ namespace CustomMath
 		{
 			return Vector3(x - vec.x, y - vec.y, z - vec.z);
 		}
+		Vector3 operator-(const Vector2 vec) {
+			return Vector3(x - vec.x, y - vec.y, z);
+		}
 		Vector3 operator*(const float multiplier)
 		{
 			return Vector3(x * multiplier, y * multiplier, z * multiplier);
@@ -111,6 +124,17 @@ namespace CustomMath
 			y = vec1.y;
 			z = 0.0f;
 		}
+
+		std::string To_String() {
+			std::string xString = std::to_string(x);
+			std::string yString = std::to_string(y);
+			std::string zString = std::to_string(z);
+
+
+
+			return "{" + xString + ", " + yString + ", " + zString + "}";
+		}
+		
 	};
 }
 

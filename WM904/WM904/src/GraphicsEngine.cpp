@@ -23,6 +23,7 @@ void GraphicsEngine::StartUp(int sizeX, int sizeY) {
 
 	_mainCanvas->create(sizeX, sizeY, "Tiles"); //Create the required window with default size and name.
 	_shapeManager = new ShapeDrawer2D(_mainCanvas); //Responsible for drawing shapes at given positions.
+	_mainCamera = new Camera2D(_mainCanvas);
 
 
 	//Create images that are required. 
@@ -40,7 +41,9 @@ void GraphicsEngine::Update() {
 	//Clears the entire screen before continuing.
 	_mainCanvas->clear();
 	SetBackground(defaultColour);
-
+	_mainCamera->Position(CustomMath::Vector2(hero->Position().x,hero->Position().y));
+	std::cout << "Position of camera is " << _mainCamera->Position().To_String() << std::endl;
+	std::cout << "Position of hero is " << hero->Position().To_String() << std::endl;
 	//Get input for this frame
 	CustomMath::Vector2 totalInput = CustomMath::Vector2::Zero();
 	if (_mainCanvas->keyPressed('W'))
@@ -59,7 +62,7 @@ void GraphicsEngine::Update() {
 	//Any drawing required will go here.
 	//DrawImage(sprite1,CustomMath::Vector3::Zero() - CustomMath::Vector3(0,0,0));
 	//DrawImage(sprite1,CustomMath::Vector3::Zero() - CustomMath::Vector3(-250,-250,0));
-	DrawImage(hero->GetSprite(),hero->Position());
+	DrawImage(hero->GetSprite(), hero->Position() + _mainCamera->Offset());
 	
 	//Presents the canvas.
 	
