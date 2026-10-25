@@ -41,9 +41,6 @@ void GraphicsEngine::Update() {
 	//Clears the entire screen before continuing.
 	_mainCanvas->clear();
 	SetBackground(defaultColour);
-	_mainCamera->Position(CustomMath::Vector2(hero->Position().x,hero->Position().y));
-	std::cout << "Position of camera is " << _mainCamera->Position().To_String() << std::endl;
-	std::cout << "Position of hero is " << hero->Position().To_String() << std::endl;
 	//Get input for this frame
 	CustomMath::Vector2 totalInput = CustomMath::Vector2::Zero();
 	if (_mainCanvas->keyPressed('W'))
@@ -62,7 +59,15 @@ void GraphicsEngine::Update() {
 	//Any drawing required will go here.
 	//DrawImage(sprite1,CustomMath::Vector3::Zero() - CustomMath::Vector3(0,0,0));
 	//DrawImage(sprite1,CustomMath::Vector3::Zero() - CustomMath::Vector3(-250,-250,0));
-	DrawImage(hero->GetSprite(), hero->Position() + _mainCamera->Offset());
+
+	_mainCamera->Position(CustomMath::Vector2(hero->Position().x, hero->Position().y));
+	std::cout << "Position of camera is " << _mainCamera->Position().To_String() << std::endl;
+	std::cout << "Position of hero is " << hero->Position().To_String() << std::endl;
+	CustomMath::Vector3 drawingPos = hero->Position() - _mainCamera->Position() +_mainCamera->Offset();
+	
+	std::cout << "Drawing pos is: " + drawingPos.To_String() << std::endl;
+
+	DrawImage(hero->GetSprite(), drawingPos);
 	
 	//Presents the canvas.
 	
