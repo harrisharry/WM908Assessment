@@ -14,10 +14,6 @@ int main() {
     bool running = true; // Variable to control the main loop's running state.
 
 
-    Vector3 vec1(1.0f, 1.0f, 1.0f);
-    Vector3 vec2(2.0f, 2.0f, 2.0f);
-
-
     //Vector3::Dot();
 
     GraphicsEngine graphics;

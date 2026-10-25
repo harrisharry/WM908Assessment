@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera2D.h" />
+    <ClInclude Include="Collider.h" />
+    <ClInclude Include="PhysicsEngine.h" />
     <ClInclude Include="src\Colour.h" />
     <ClInclude Include="src\DStructures.h" />
     <ClInclude Include="src\Entity.h" />
@@ -31,6 +33,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera2D.cpp" />
+    <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="src\GEBase.cpp" />
     <ClCompile Include="src\GraphicsEngine.cpp" />
     <ClCompile Include="src\Mathf.cpp" />

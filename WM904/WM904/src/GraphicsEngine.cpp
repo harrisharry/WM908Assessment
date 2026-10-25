@@ -62,14 +62,9 @@ void GraphicsEngine::Update() {
 	//DrawImage(sprite1,CustomMath::Vector3::Zero() - CustomMath::Vector3(-250,-250,0));
 
 	_mainCamera->Position(CustomMath::Vector2(hero->Position().x, hero->Position().y));
-	std::cout << "Position of camera is " << _mainCamera->Position().To_String() << std::endl;
-	std::cout << "Position of hero is " << hero->Position().To_String() << std::endl;
-	CustomMath::Vector3 drawingPos = hero->Position() - _mainCamera->Position() +_mainCamera->Offset();
-	
-	std::cout << "Drawing pos is: " + drawingPos.To_String() << std::endl;
 
-	DrawImage(hero->GetSprite(), drawingPos);
-	DrawImage(testObj.GetSprite(), testObj.Position() - _mainCamera->Position() + _mainCamera->Offset());
+	DrawImage(hero->GetSprite(), hero->Position());
+	DrawImage(testObj.GetSprite(), testObj.Position());
 	
 	//Presents the canvas.
 	
@@ -90,6 +85,9 @@ void GraphicsEngine::DrawImage(const GamesEngineeringBase::Image* imageToDraw, C
 	unsigned int height = imageToDraw->height;
 	unsigned int width = imageToDraw->width;
 
+	//Calculate draw position from world space to screen.
+	CustomMath::Vector3 screenPos = position - _mainCamera->Position() + _mainCamera->Offset();
+
 	//Iterrate over all the rows of the image
 	for (int x = 0; x < width; x++) {
 
@@ -102,7 +100,7 @@ void GraphicsEngine::DrawImage(const GamesEngineeringBase::Image* imageToDraw, C
 			if (imageToDraw->channels == 3 || imageToDraw->data[pixelIndex + 3] != 0)
 			{
 				//std::cout << "X is " << x << " and Y is " << y << std::endl;
-				_mainCanvas->draw(x + position.x,y + position.y,&imageToDraw->data[pixelIndex]);
+				_mainCanvas->draw(x + screenPos.x,y + screenPos.y,&imageToDraw->data[pixelIndex]);
 			}
 		}
 	}

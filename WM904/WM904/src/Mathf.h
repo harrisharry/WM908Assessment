@@ -56,6 +56,12 @@ namespace CustomMath
 			y += vec2.y;
 		}
 		
+		float Distance(CustomMath::Vector2 vec) const {
+
+			float result = sqrt((vec.x - x) * (vec.x - x) + (vec.y - y) * (vec.y - y));
+			std::cout << "Distance value is " << result << std::endl;	
+			return result;
+		}
 
 		float Length() {
 
@@ -123,6 +129,13 @@ namespace CustomMath
 			x = vec1.x;
 			y = vec1.y;
 			z = 0.0f;
+		}
+
+		float Distance(CustomMath::Vector3 vec) const {
+
+			float result = sqrt((vec.x - x) * (vec.x - x) + (vec.y - y) * (vec.y - y) + (vec.z - z) * (vec.z - z));
+			std::cout << "Distance value is " << result << std::endl;
+			return result;
 		}
 
 		std::string To_String() {
