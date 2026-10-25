@@ -6,6 +6,7 @@
 
 GamesEngineeringBase::Image* sprite1 = new GamesEngineeringBase::Image();
 Hero* hero = new Hero();
+GameObject testObj;
 
 /// <summary>
 /// Called when starting up the graphics engine. Default creates a window.
@@ -34,7 +35,7 @@ void GraphicsEngine::StartUp(int sizeX, int sizeY) {
 	/*Create entities here to be drawn in update.
 	In future this would be stored in the actual main, then passed to the graphics engine to render sprites at the required positions*/
 	
-	GameObject testObj(CustomMath::Vector3::Zero(), sprite1);
+	testObj = GameObject(CustomMath::Vector3::Zero(), sprite1);
 
 }
 void GraphicsEngine::Update() {
@@ -68,6 +69,7 @@ void GraphicsEngine::Update() {
 	std::cout << "Drawing pos is: " + drawingPos.To_String() << std::endl;
 
 	DrawImage(hero->GetSprite(), drawingPos);
+	DrawImage(testObj.GetSprite(), testObj.Position() - _mainCamera->Position() + _mainCamera->Offset());
 	
 	//Presents the canvas.
 	
