@@ -8,7 +8,7 @@ namespace DataStructures {
 
 	private:
 	
-		T arrayStack[12]; //Default size for now.
+		T* arrayStack; //Default size for now.
 		unsigned int topIndex = 0; //Stores how much data we have. 0 means there is nothing in the stack, and there for empty.
 
 		
@@ -16,8 +16,9 @@ namespace DataStructures {
 
 
 		//Constructor.
-		Stack() {
+		Stack(unsigned int size = 10) {
 			//Initialise array ints with nullptr.
+			arrayStack = new T[size];
 		}
 
 
@@ -70,6 +71,18 @@ namespace DataStructures {
 		}
 	};
 
+	template<typename T>
+	class Queue
+	{
+	private:
+		T* arrayQueue;
+
+	public:
+
+		Queue(unsigned int size = 10) {
+			arrayQueue = new T[size];
+		}
+	};
 	
 
 }
