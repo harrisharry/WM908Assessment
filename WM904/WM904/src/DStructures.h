@@ -76,11 +76,19 @@ namespace DataStructures {
 	{
 	private:
 		T* arrayQueue;
-
+		unsigned int head = 0;
+		unsigned int tail = 0;
 	public:
 
 		Queue(unsigned int size = 10) {
 			arrayQueue = new T[size];
+		}
+
+		void Enqueue(T value) {
+
+		}
+		void Dequeue() {
+
 		}
 	};
 	

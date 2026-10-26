@@ -23,7 +23,6 @@ int main() {
     graphics.StartUp();
 
 
-
     //Main loop of the engine / system.
     while (running)
     {
