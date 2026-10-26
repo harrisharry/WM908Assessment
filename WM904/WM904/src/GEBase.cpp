@@ -15,7 +15,6 @@ int main() {
     // Create a canvas window with dimensions 1024x768 and title “Tiles"
     bool running = true; // Variable to control the main loop's running state.
 
-    DataStructures::StackInt<std::string> intStack;
 
     //Vector3::Dot();
 
@@ -23,9 +22,6 @@ int main() {
 
     graphics.StartUp();
 
-    intStack.Push((std::string)"Sup");
-    intStack.Push((std::string)"Hello");
-    intStack.Push((std::string)"World");
 
 
     //Main loop of the engine / system.
@@ -35,12 +31,9 @@ int main() {
         if (graphics.ShouldClose()) break;
         graphics.Update();
 
-        intStack.DebugStack();
 
     }
 
-    std::cout << "Poped value is " << intStack.Pop() << std::endl;
-    std::cout << "Poped value is " << intStack.Pop() << std::endl;
 
     return 0;
 }

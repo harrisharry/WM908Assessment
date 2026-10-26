@@ -4,7 +4,7 @@ namespace DataStructures {
 
 	//Custom stack class for ints for now.
 	template<typename T>
-	class StackInt {
+	class Stack {
 
 	private:
 	
@@ -16,7 +16,7 @@ namespace DataStructures {
 
 
 		//Constructor.
-		StackInt() {
+		Stack() {
 			//Initialise array ints with nullptr.
 		}
 
@@ -44,7 +44,7 @@ namespace DataStructures {
 
 			if (Empty()) {
 				
-				return nullptr;
+				return 0;
 			}
 			topIndex--; //Move the top value in the stack back.
 			/*Return the value at this current position, since the next in queue is topIndex - 1,which has already been done in 
@@ -70,5 +70,6 @@ namespace DataStructures {
 		}
 	};
 
+	
 
 }
