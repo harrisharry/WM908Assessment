@@ -16,8 +16,8 @@ int main() {
     bool running = true; // Variable to control the main loop's running state.
 
     DataStructures::List<int> listData;
-    //listData.Add(1);
-    //listData.Add(2);
+    listData.Add(1);
+    listData.Add(2);
     //listData.Add(3);
     //listData.Add(4);
 

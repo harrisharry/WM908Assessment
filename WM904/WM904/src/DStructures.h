@@ -132,7 +132,11 @@ namespace DataStructures {
 	public:
 		T data; //Storest the data this node contains.
 		std::unique_ptr<Node<T>> next = nullptr; //Reference to the next item node in the list. If this is null, this is the last item in the list. For now.
-		std::shared_ptr<Node<T>> prev = nullptr; //Referrence to the previous item node in the list. If this is null, this is the first item in the list.
+		Node<T>* prev = nullptr; //Referrence to the previous item node in the list. If this is null, this is the first item in the list.
+
+		Node(T dataToStore) {
+			data = dataToStore;
+		}
 	};
 	
 	template<typename T>
@@ -161,30 +165,31 @@ namespace DataStructures {
 		}
 
 		//O(1), because it doesn't matter how many elements we have, it will always be appended at the head.
-		//void Add(T value) {
+		void Add(T value) {
 
-		//	//Create the new node with the data required
-		//	Node<T>* newNode = new Node<T>;
+			//Create the new node with the data required
+			////Next and prev are already null because of the constructor.
 
-		//	newNode->data = value;
-		//	//Next and prev are already null because of the constructor.
 
-		//	if (head == nullptr) { //Checks if the list is empty.
-		//		head = std::make_unique<Node<T>>(newNode);
-		//		tail = head.get(); //The last element is also the first element, as now the list has one singular element.
-		//	}
-		//	else { //If the list is not empty.
+			if (head == nullptr) { //Checks if the list is empty.
+				head = std::make_unique<Node<T>>(Node<T>(value));
+				
+				tail = head.get(); //The last element is also the first element, as now the list has one singular element.
+			}
+			else { //If the list is not empty.
 
-		//		tail->next = std::make_unique<Node<T>>(newNode); //Get the last element in the list, and assign its "next" variable to the new node.
-		//		Node<T>* temp = tail; //Temp variable to keep rearrange. This is actually the previous node to the new node we have just created.
-		//		tail = newNode; //Set the new node to be the tail. As it is now the last element.
-		//		newNode->prev = std::make_shared<Node<T>>(temp); //Now that the newNode is correctly pointed to as the last element. We can set its previous pointer to the node that was before it, and stored as a temporary variable before hand.
-		//		//The new node's next pointer remains null. As this is the last last node now.
 
-		//	}
-		//	
-		//	size++; //Increment size at the end of the function, as we have now increased the total size of this list.
-		//}
+				tail->next = std::make_unique<Node<T>>(Node<T>(value)); //Get the last element in the list, and assign its "next" variable to the new node.
+				Node<T>* temp = tail; //Get a pointer to the now previous node to the one we have created.
+				tail = tail->next.get(); //The new tail has now moved, tail-> is already pointing to the newly created node, so set tail to point to that now new node.
+				if (tail->prev == nullptr)
+					std::cout << "tail->prev is a null ptr\n";
+				tail->prev = temp; //Now set the new node's previous pointer to be that of the temp value(Stored before hand so we could do this.)
+				std::cout << tail->prev->data;
+			}
+			
+			size++; //Increment size at the end of the function, as we have now increased the total size of this list.
+		}
 
 		//void DebugList() {
 
