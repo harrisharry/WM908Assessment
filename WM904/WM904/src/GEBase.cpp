@@ -15,37 +15,18 @@ int main() {
     // Create a canvas window with dimensions 1024x768 and title “Tiles"
     bool running = true; // Variable to control the main loop's running state.
 
+    DataStructures::List<int> listData;
+    //listData.Add(1);
+    //listData.Add(2);
+    //listData.Add(3);
+    //listData.Add(4);
 
-    //Vector3::Dot();
-
-    //DataStructures::Queue<int> data;
-    DataStructures::Stack<int> stack;
-    stack.Push(5);
-    stack.Push(10);
-    stack.Push(3);
-    stack.DebugStack();
-
-    stack.Pop();
-
-    stack.DebugStack();
+    //listData.DebugList();
 
     GraphicsEngine graphics;
 
     graphics.StartUp();
- 
-    //data.Enqueue(1);
-    //data.Enqueue(4);
-    //data.Enqueue(8);
 
-    //data.DebugQueue();
-
-    //data.Dequeue();
-
-    //data.DebugQueue();
-
-    //data.Enqueue(40);
-
-    //data.DebugQueue();
 
     //Main loop of the engine / system.
     while (running)

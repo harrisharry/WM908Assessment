@@ -18,9 +18,9 @@ namespace DataStructures {
 
 		//Constructor.
 		Stack(unsigned int size = 10) {
-			//Initialise array ints with nullptr.
+			//Initialise the array and store it in the Unique ptr.
 			arrayStack = std::make_unique<T[]>(size);
-			//arrayStack = new T[size];
+
 		}
 
 
@@ -77,7 +77,8 @@ namespace DataStructures {
 	class Queue
 	{
 	private:
-		T* arrayQueue;
+		//T* arrayQueue;
+		std::unique_ptr<T[]> arrayQueue;
 		unsigned int arraySize = 0;
 		unsigned int head = 0;
 		unsigned int tail = 0;
@@ -88,7 +89,8 @@ namespace DataStructures {
 	public:
 
 		Queue(unsigned int size = 10) {
-			arrayQueue = new T[size];
+			//arrayQueue = new T[size];
+			arrayQueue = std::make_unique<T[]>(size);
 			arraySize = size;
 		}
 
@@ -124,11 +126,78 @@ namespace DataStructures {
 			}
 		}
 	};
+
+	template<typename T>
+	struct Node {
+	public:
+		T data; //Storest the data this node contains.
+		std::unique_ptr<Node<T>> next = nullptr; //Reference to the next item node in the list. If this is null, this is the last item in the list. For now.
+		std::shared_ptr<Node<T>> prev = nullptr; //Referrence to the previous item node in the list. If this is null, this is the first item in the list.
+	};
 	
 	template<typename T>
 	class List {
 		
+	private:
+		std::unique_ptr<Node<T>> head; //First element in the list. if head == nill, list is empty.
+		Node<T>* tail = nullptr;
+		int size = 0; //How many elements have been added.
 		
 
+	public:
+		List() {
+		}
+
+		//O(n) because at worst case, it will need to treverse all n elements.
+		Node<T>* Search(T keyValue) {
+			Node<T>* currentNode = head.get(); //Set this to the head, the first element in the list.
+			while (currentNode != nullptr && currentNode->data != keyValue) //While the node isnt null, and the value of that node is not what we are looking for.
+			{
+				//Move to the next node pointed to by the current node, and assign it to itself. This way it moves up along the list.
+				currentNode = currentNode->next.get();
+			}
+			//Once the while true breaks, it will mean that the keyValue requested has been found. So we returnb that node.
+			return currentNode;
+		}
+
+		//O(1), because it doesn't matter how many elements we have, it will always be appended at the head.
+		//void Add(T value) {
+
+		//	//Create the new node with the data required
+		//	Node<T>* newNode = new Node<T>;
+
+		//	newNode->data = value;
+		//	//Next and prev are already null because of the constructor.
+
+		//	if (head == nullptr) { //Checks if the list is empty.
+		//		head = std::make_unique<Node<T>>(newNode);
+		//		tail = head.get(); //The last element is also the first element, as now the list has one singular element.
+		//	}
+		//	else { //If the list is not empty.
+
+		//		tail->next = std::make_unique<Node<T>>(newNode); //Get the last element in the list, and assign its "next" variable to the new node.
+		//		Node<T>* temp = tail; //Temp variable to keep rearrange. This is actually the previous node to the new node we have just created.
+		//		tail = newNode; //Set the new node to be the tail. As it is now the last element.
+		//		newNode->prev = std::make_shared<Node<T>>(temp); //Now that the newNode is correctly pointed to as the last element. We can set its previous pointer to the node that was before it, and stored as a temporary variable before hand.
+		//		//The new node's next pointer remains null. As this is the last last node now.
+
+		//	}
+		//	
+		//	size++; //Increment size at the end of the function, as we have now increased the total size of this list.
+		//}
+
+		//void DebugList() {
+
+		//	//Iterate through the list.
+		//	//Node<T>* current = head;
+		//	Node<T>* current = head.get();
+		//	std::cout << "Number of elements in the list is " << size << std::endl;
+		//	for (int i = 0; i < size; i++) {
+
+		//		std::cout << "The element at position " << i << " is " << current->data << std::endl;
+		//		current = current->next.get(); //Reassign current to the node that is stored in the next pointer of the current node.
+		//	}
+
+		//}
 	};
 }
