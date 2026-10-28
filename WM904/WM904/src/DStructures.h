@@ -164,14 +164,15 @@ namespace DataStructures {
 			return currentNode;
 		}
 
+		bool Empty() {
+			return head == nullptr;
+		}
 		//O(1), because it doesn't matter how many elements we have, it will always be appended at the head.
 		void Add(T value) {
 
-			//Create the new node with the data required
 			////Next and prev are already null because of the constructor.
-
-
-			if (head == nullptr) { //Checks if the list is empty.
+			
+			if (Empty()) { //Checks if the list is empty.
 				head = std::make_unique<Node<T>>(Node<T>(value));
 				
 				tail = head.get(); //The last element is also the first element, as now the list has one singular element.
@@ -187,6 +188,33 @@ namespace DataStructures {
 			}
 			
 			size++; //Increment size at the end of the function, as we have now increased the total size of this list.
+		}
+		bool Remove(T valueToRemove) {
+
+			if (Empty)
+				return false;
+
+			Node<T>* found = Search(valueToRemove);
+			if (found == head) { //If the node found is the head, we need to reassign the new head.
+				head = std::move(found->next); //Move control of the foundNode->next pointer to the header, as the header should always be in control of the very first Node.
+				head.get()->prev = nullptr; //Set the pointer of the newly made head Node to be null, because it is now the first element.
+			}
+			else if (found == tail) { //If the node found is the tail, we need to move the tail to be the previous node.
+				tail = found->prev; //Set the tail to be the previous node.
+				tail->next = nullptr;
+			}
+			else //Need to remove the node, and attach the previous node to the next node of the node that is found.
+			{
+				Node<T>* prev = found->prev; //Record what the prev pointer is pointing to the previous Node.
+				Node<T>* next = found->next.get(); //Record what the next pointer is pointing to the next Node.
+
+				prev->next = nullptr; //Remove the previous node pointing to the node we wan't to delete.
+				prev->next = std::make_unique<Node<T>>(*next); //Recreate the unique ptr and make it point to the next Node of the one we wan't to delete.
+				next->prev = prev; //Get the next node, and set the node it is pointing to it previously to be now the old node was previously pointing to.
+				
+			}
+
+			return true;
 		}
 
 		void DebugList() {
