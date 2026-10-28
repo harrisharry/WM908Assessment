@@ -15,13 +15,13 @@ int main() {
     // Create a canvas window with dimensions 1024x768 and title “Tiles"
     bool running = true; // Variable to control the main loop's running state.
 
-    DataStructures::List<int> listData;
-    listData.Add(1);
-    listData.Add(2);
-    //listData.Add(3);
-    //listData.Add(4);
+    DataStructures::List<std::string> listData;
+    listData.Add("Hello");
+    listData.Add("My");
+    listData.Add("Name");
+    listData.Add("Is");
 
-    //listData.DebugList();
+    listData.DebugList();
 
     GraphicsEngine graphics;
 

@@ -181,9 +181,7 @@ namespace DataStructures {
 
 				tail->next = std::make_unique<Node<T>>(Node<T>(value)); //Get the last element in the list, and assign its "next" variable to the new node.
 				Node<T>* temp = tail; //Get a pointer to the now previous node to the one we have created.
-				tail = tail->next.get(); //The new tail has now moved, tail-> is already pointing to the newly created node, so set tail to point to that now new node.
-				if (tail->prev == nullptr)
-					std::cout << "tail->prev is a null ptr\n";
+				tail = tail->next.get(); //The new tail has now moved, tail-> is already pointing to the newly created node, so set tail to point to that now new node
 				tail->prev = temp; //Now set the new node's previous pointer to be that of the temp value(Stored before hand so we could do this.)
 				std::cout << tail->prev->data;
 			}
@@ -191,18 +189,18 @@ namespace DataStructures {
 			size++; //Increment size at the end of the function, as we have now increased the total size of this list.
 		}
 
-		//void DebugList() {
+		void DebugList() {
 
-		//	//Iterate through the list.
-		//	//Node<T>* current = head;
-		//	Node<T>* current = head.get();
-		//	std::cout << "Number of elements in the list is " << size << std::endl;
-		//	for (int i = 0; i < size; i++) {
+			//Iterate through the list.
+			//Node<T>* current = head;
+			Node<T>* current = head.get();
+			std::cout << "Number of elements in the list is " << size << std::endl;
+			for (int i = 0; i < size; i++) {
 
-		//		std::cout << "The element at position " << i << " is " << current->data << std::endl;
-		//		current = current->next.get(); //Reassign current to the node that is stored in the next pointer of the current node.
-		//	}
+				std::cout << "The element at position " << i << " is " << current->data << std::endl;
+				current = current->next.get(); //Reassign current to the node that is stored in the next pointer of the current node.
+			}
 
-		//}
+		}
 	};
 }
