@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <Memory>
 namespace DataStructures {
 
 	//Custom stack class for ints for now.
@@ -7,8 +8,8 @@ namespace DataStructures {
 	class Stack {
 
 	private:
-	
-		T* arrayStack; //Default size for now.
+		std::unique_ptr<T[]> arrayStack;
+		//T* arrayStack; //Default size for now.
 		unsigned int topIndex = 0; //Stores how much data we have. 0 means there is nothing in the stack, and there for empty.
 
 		
@@ -18,7 +19,8 @@ namespace DataStructures {
 		//Constructor.
 		Stack(unsigned int size = 10) {
 			//Initialise array ints with nullptr.
-			arrayStack = new T[size];
+			arrayStack = std::make_unique<T[]>(size);
+			//arrayStack = new T[size];
 		}
 
 
@@ -76,21 +78,57 @@ namespace DataStructures {
 	{
 	private:
 		T* arrayQueue;
+		unsigned int arraySize = 0;
 		unsigned int head = 0;
 		unsigned int tail = 0;
+
+		bool Full() {
+			return tail == arraySize;
+		}
 	public:
 
 		Queue(unsigned int size = 10) {
 			arrayQueue = new T[size];
+			arraySize = size;
 		}
 
+		bool Empty() {
+			return tail != 0; //If the tail is pointing at 0, then nothing has been enqueued.
+		}
+		int Size() {
+			return tail; //tail value will always indicate the size of the queue.
+		}
 		void Enqueue(T value) {
-
+			if (Full())
+			{
+				std::cout << "Queue has reached max size.\n";
+				return;
+			}
+			arrayQueue[tail] = value; //Assign the queue at the tail.
+			tail++; //Increment tail so it is pointing at the next available index. 
 		}
-		void Dequeue() {
+		T Dequeue() {
 
+			T returned = arrayQueue[head];
+			head++;
+
+			return returned;
+			
+		}
+
+		void DebugQueue() {
+
+			for (int i = head; i < tail; i++) {
+
+				std::cout << "The value at position " << i << " is " << arrayQueue[i] << std::endl;
+			}
 		}
 	};
 	
+	template<typename T>
+	class List {
+		
+		
 
+	};
 }

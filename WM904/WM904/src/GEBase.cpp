@@ -18,16 +18,41 @@ int main() {
 
     //Vector3::Dot();
 
+    //DataStructures::Queue<int> data;
+    DataStructures::Stack<int> stack;
+    stack.Push(5);
+    stack.Push(10);
+    stack.Push(3);
+    stack.DebugStack();
+
+    stack.Pop();
+
+    stack.DebugStack();
+
     GraphicsEngine graphics;
 
     graphics.StartUp();
+ 
+    //data.Enqueue(1);
+    //data.Enqueue(4);
+    //data.Enqueue(8);
 
+    //data.DebugQueue();
+
+    //data.Dequeue();
+
+    //data.DebugQueue();
+
+    //data.Enqueue(40);
+
+    //data.DebugQueue();
 
     //Main loop of the engine / system.
     while (running)
     {
         //Check if the graphics engine has detected that it needs to close.
         if (graphics.ShouldClose()) break;
+
         graphics.Update();
 
 
