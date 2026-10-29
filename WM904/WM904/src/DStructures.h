@@ -139,6 +139,26 @@ namespace DataStructures {
 		}
 	};
 	
+	//https://www.google.com/search?sca_esv=a1669c2d6fe4ecbb&rlz=1C1HKFL_enGB1235GB1235&sxsrf=AKL5yDhA1WigKU4jEcA4_L25H7Ag6hO4vA:1793288869769&udm=vids&fbs=ACAhTvwdifjn2dKXmjtOfBxVFl_k7xB_bJXhWBZp-REbIUHBWN-snoH3FlZylufB_FE1AR1adZpcKn9ihLVbHvMslHJlW0lte04An72fAl3Q1xEmNc9CZfDbOROifjy1E5_AGkz6XoL21U3hzSsg2DCiQCUmFVajuP5H5ucPJjUhKnSPwMuBareePdKAfQxf1oCbBVVU7R4hTvflYG3vzgwGXciqUb_8lA&q=custom+iterators+explained+c~%2B%2B&sa=X&ved=2ahUKEwiYhr_Qyd-XAxUcU0EAHQzwLOEQtKgLegQIFxAB&biw=1163&bih=605&dpr=1.65#fpstate=ive&vld=cid:46552808,vid:F9eDv-YIOQ0,st:0
+	template<typename List>
+	class ListIterator {
+
+	private:
+		using ValueType = typename List::ValueType;
+		using PointerType = ValueType*;
+		using ReferenceType = ValueType&;
+
+
+		PointerType _ptr;
+
+
+	public:
+
+ 		ListIterator(PointerType ptr) {
+			
+		}
+	};
+
 	template<typename T>
 	class List {
 		
@@ -149,9 +169,9 @@ namespace DataStructures {
 		
 
 	public:
+		using ValueType = T;
 		List() {
 		}
-
 		//O(n) because at worst case, it will need to treverse all n elements.
 		Node<T>* Search(T keyValue) {
 			Node<T>* currentNode = head.get(); //Set this to the head, the first element in the list.
@@ -163,7 +183,6 @@ namespace DataStructures {
 			//Once the while true breaks, it will mean that the keyValue requested has been found. So we returnb that node.
 			return currentNode;
 		}
-
 		bool Empty() {
 			return head == nullptr;
 		}
@@ -198,8 +217,14 @@ namespace DataStructures {
 			}
 			Node<T>* found = Search(valueToRemove);
 			if (found == head.get()) { //If the node found is the head, we need to reassign the new head.
-				head = std::move(found->next); //Move control of the foundNode->next pointer to the header, as the header should always be in control of the very first Node.
-				head.get()->prev = nullptr; //Set the pointer of the newly made head Node to be null, because it is now the first element.
+				
+				if (found->next == nullptr) { //If this is the only element in list just release the data.
+					head.release();
+				}
+				else {
+					head = std::move(found->next); //Move control of the foundNode->next pointer to the header, as the header should always be in control of the very first Node.
+					head.get()->prev = nullptr; //Set the pointer of the newly made head Node to be null, because it is now the first element.
+				}
 			}
 			else if (found == tail) { //If the node found is the tail, we need to move the tail to be the previous node.
 				tail = found->prev; //Set the tail to be the previous node.
@@ -219,7 +244,12 @@ namespace DataStructures {
 			size--;
 			return true;
 		}
+		int Size() {
+			return size;
+		}
+		void Traverse() {
 
+		}
 		void DebugList() {
 
 			//Iterate through the list.

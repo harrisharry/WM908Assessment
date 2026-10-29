@@ -1,8 +1,6 @@
 #include "GraphicsEngine.h"
 #include <iostream>
 
-#include "Entity.h"
-
 
 GamesEngineeringBase::Image* sprite1 = new GamesEngineeringBase::Image();
 Hero* hero = new Hero();
@@ -13,10 +11,10 @@ GameObject testObj;
 /// </summary>
 /// <param name="sizeX"></param>
 /// <param name="sizeY"></param>
-void GraphicsEngine::StartUp(int sizeX, int sizeY) {
+void GraphicsEngine::StartUp(DataStructures::List<GameObject*>& objects,int sizeX, int sizeY) {
 
 
-
+	gameObjects = &objects;
 	//Create a canvas.
 	if (_mainCanvas == NULL) {
 		_mainCanvas = new Window(); //Store the newly created window if there wasn't already one.
@@ -38,7 +36,7 @@ void GraphicsEngine::StartUp(int sizeX, int sizeY) {
 	testObj = GameObject(CustomMath::Vector3::Zero(), sprite1);
 
 }
-void GraphicsEngine::Update() {
+void GraphicsEngine::Update(float deltaTime) {
 	//Clears the entire screen before continuing.
 	_mainCanvas->clear();
 	SetBackground(defaultColour);
@@ -57,6 +55,7 @@ void GraphicsEngine::Update() {
 
 	hero->Update(0.01667);
 
+	
 	//Any drawing required will go here.
 	//DrawImage(sprite1,CustomMath::Vector3::Zero() - CustomMath::Vector3(0,0,0));
 	//DrawImage(sprite1,CustomMath::Vector3::Zero() - CustomMath::Vector3(-250,-250,0));
