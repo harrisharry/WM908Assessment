@@ -140,8 +140,10 @@ namespace DataStructures {
 	};
 	
 	//https://www.google.com/search?sca_esv=a1669c2d6fe4ecbb&rlz=1C1HKFL_enGB1235GB1235&sxsrf=AKL5yDhA1WigKU4jEcA4_L25H7Ag6hO4vA:1793288869769&udm=vids&fbs=ACAhTvwdifjn2dKXmjtOfBxVFl_k7xB_bJXhWBZp-REbIUHBWN-snoH3FlZylufB_FE1AR1adZpcKn9ihLVbHvMslHJlW0lte04An72fAl3Q1xEmNc9CZfDbOROifjy1E5_AGkz6XoL21U3hzSsg2DCiQCUmFVajuP5H5ucPJjUhKnSPwMuBareePdKAfQxf1oCbBVVU7R4hTvflYG3vzgwGXciqUb_8lA&q=custom+iterators+explained+c~%2B%2B&sa=X&ved=2ahUKEwiYhr_Qyd-XAxUcU0EAHQzwLOEQtKgLegQIFxAB&biw=1163&bih=605&dpr=1.65#fpstate=ive&vld=cid:46552808,vid:F9eDv-YIOQ0,st:0
+	
 	template<typename List>
 	class ListIterator {
+
 
 	private:
 		using ValueType = typename List::ValueType;
@@ -149,13 +151,57 @@ namespace DataStructures {
 		using ReferenceType = ValueType&;
 
 
-		PointerType _ptr;
+		PointerType current; //Currently pointing to.
 
 
 	public:
 
  		ListIterator(PointerType ptr) {
+			current = ptr;
+		}
+
+		ListIterator  operator ++() {
+			if (current->next == nullptr)
+				return *this;
 			
+			this->current = current->next.get();
+			return *this;
+			
+		}
+
+		ListIterator  operator ++(int) {
+			if (current->next == nullptr)
+				return *this;
+
+			ListIterator iterator = *this; //Create a copy before any changes have been made to return.
+			++(*this); //Make the changes.
+			return iterator; //Return the copy.
+
+
+		}
+		ListIterator operator--() {
+			if (current->prev) //Check if null
+				return *this;
+			this->current = current->prev;
+
+			return *this;
+		}
+		ListIterator operator--(int){
+			ListIterator iterator = *this; //Create a copy before any changes have been made to return.
+			--(*this);
+			return iterator;
+		}
+		PointerType operator->() {
+			return this->current;
+		}
+		bool operator==(const ListIterator& other) const {
+			return this->current == other.current;
+		}
+		bool operator!=(const ListIterator& other) const {
+			return !(*this == other);
+		}
+		ReferenceType operator*() {
+			return *current;
 		}
 	};
 
@@ -169,8 +215,17 @@ namespace DataStructures {
 		
 
 	public:
-		using ValueType = T;
+		using ValueType = Node<T>;
+		using Iterator = ListIterator<List<T>>;
 		List() {
+		}
+		//An iterator that point at the beginning of the list.
+		Iterator Begin() {
+			return Iterator(head.get());
+		}
+		//An iterator that points to the end of the list
+		Iterator End() {
+			return Iterator(tail);
 		}
 		//O(n) because at worst case, it will need to treverse all n elements.
 		Node<T>* Search(T keyValue) {

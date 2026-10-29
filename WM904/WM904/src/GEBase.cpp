@@ -22,7 +22,7 @@ int main() {
 
     gameObjects.Remove(hero);
     gameObjects.DebugList();
-
+    gameObjects.Begin();
     // Create a canvas window with dimensions 1024x768 and title “Tiles"
     bool running = true; // Variable to control the main loop's running state.
 
@@ -36,6 +36,11 @@ int main() {
         //Check if the graphics engine has detected that it needs to close.
         if (graphics.ShouldClose()) break;
         graphics.Update(0.00166);
+
+        for (DataStructures::ListIterator iterator = gameObjects.Begin(); iterator != gameObjects.End();iterator++) {
+
+            
+        }
 
 
     }

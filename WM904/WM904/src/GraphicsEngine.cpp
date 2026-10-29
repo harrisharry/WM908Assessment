@@ -56,6 +56,7 @@ void GraphicsEngine::Update(float deltaTime) {
 	hero->Update(0.01667);
 
 	
+
 	//Any drawing required will go here.
 	//DrawImage(sprite1,CustomMath::Vector3::Zero() - CustomMath::Vector3(0,0,0));
 	//DrawImage(sprite1,CustomMath::Vector3::Zero() - CustomMath::Vector3(-250,-250,0));
