@@ -27,6 +27,8 @@ int main() {
 
     graphics.StartUp();
 
+    listData.Remove("My");
+    listData.DebugList();
 
     //Main loop of the engine / system.
     while (running)

@@ -191,11 +191,13 @@ namespace DataStructures {
 		}
 		bool Remove(T valueToRemove) {
 
-			if (Empty)
+			if (Empty())
+			{
+				std::cout << "List is empty when trying to remove an element\n";
 				return false;
-
+			}
 			Node<T>* found = Search(valueToRemove);
-			if (found == head) { //If the node found is the head, we need to reassign the new head.
+			if (found == head.get()) { //If the node found is the head, we need to reassign the new head.
 				head = std::move(found->next); //Move control of the foundNode->next pointer to the header, as the header should always be in control of the very first Node.
 				head.get()->prev = nullptr; //Set the pointer of the newly made head Node to be null, because it is now the first element.
 			}
@@ -203,24 +205,25 @@ namespace DataStructures {
 				tail = found->prev; //Set the tail to be the previous node.
 				tail->next = nullptr;
 			}
-			else //Need to remove the node, and attach the previous node to the next node of the node that is found.
-			{
+			else { //Need to remove the node, and attach the previous node to the next node of the node that is found.
+			
 				Node<T>* prev = found->prev; //Record what the prev pointer is pointing to the previous Node.
 				Node<T>* next = found->next.get(); //Record what the next pointer is pointing to the next Node.
 
-				prev->next = nullptr; //Remove the previous node pointing to the node we wan't to delete.
-				prev->next = std::make_unique<Node<T>>(*next); //Recreate the unique ptr and make it point to the next Node of the one we wan't to delete.
+
+
+				prev->next = std::move(found->next); //Move ownership of found->next to prev->next, as this now needs to point to the next node instead of the node we are deleting pointing to the next one.
 				next->prev = prev; //Get the next node, and set the node it is pointing to it previously to be now the old node was previously pointing to.
-				
 			}
 
+			size--;
 			return true;
 		}
 
 		void DebugList() {
 
 			//Iterate through the list.
-			//Node<T>* current = head;
+
 			Node<T>* current = head.get();
 			std::cout << "Number of elements in the list is " << size << std::endl;
 			for (int i = 0; i < size; i++) {
