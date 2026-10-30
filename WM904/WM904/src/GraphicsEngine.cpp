@@ -1,9 +1,6 @@
 #include "GraphicsEngine.h"
 #include <iostream>
 
-
-GamesEngineeringBase::Image* sprite1 = new GamesEngineeringBase::Image();
-Hero* hero = new Hero();
 GameObject testObj;
 
 /// <summary>
@@ -25,45 +22,40 @@ void GraphicsEngine::StartUp(DataStructures::List<GameObject*>& objects,int size
 	_mainCamera = new Camera2D(_mainCanvas);
 
 
-	//Create images that are required. 
+	//Create images that are required and store them.
 
-	//GamesEngineeringBase::Image* sprite1 = new GamesEngineeringBase::Image();
-	sprite1->load("./Resources/TestSprite.png");
-	hero->SetSprite(sprite1);
+	GamesEngineeringBase::Image* currentLoaded = new GamesEngineeringBase::Image();
+	currentLoaded->load("./Resources/TestSprite.png"); //Test "hero" sprite.
+	_loadedSprites[0] = currentLoaded;
 	/*Create entities here to be drawn in update.
 	In future this would be stored in the actual main, then passed to the graphics engine to render sprites at the required positions*/
 	
-	testObj = GameObject(CustomMath::Vector3::Zero(), sprite1);
+	testObj = GameObject(CustomMath::Vector3::Zero(), currentLoaded);
 
 }
 void GraphicsEngine::Update(float deltaTime) {
 	//Clears the entire screen before continuing.
 	_mainCanvas->clear();
-	SetBackground(defaultColour);
 	//Get input for this frame
-	CustomMath::Vector2 totalInput = CustomMath::Vector2::Zero();
-	if (_mainCanvas->keyPressed('W'))
-		totalInput += CustomMath::Vector2( 0, -1);
-	if (_mainCanvas->keyPressed('S'))
-		totalInput += CustomMath::Vector2( 0,1);
-	if (_mainCanvas->keyPressed('A'))
-		totalInput += CustomMath::Vector2(-1, 0);
-	if (_mainCanvas->keyPressed('D'))
-		totalInput += CustomMath::Vector2( 1, 0);
 
-	hero->SetInputVec(totalInput);
 
-	hero->Update(0.01667);
+	CustomMath::Vector3 heroPos = gameObjects->Begin()->data->Position();
 
-	
+	for (DataStructures::ListIterator it = gameObjects->Begin(); it != gameObjects->End(); it++) {
+		GamesEngineeringBase::Image* sprite = it->data->GetSprite();
+		CustomMath::Vector3 pos = it->data->Position();
+
+
+		DrawImage(sprite,pos);
+	}
 
 	//Any drawing required will go here.
 	//DrawImage(sprite1,CustomMath::Vector3::Zero() - CustomMath::Vector3(0,0,0));
 	//DrawImage(sprite1,CustomMath::Vector3::Zero() - CustomMath::Vector3(-250,-250,0));
 
-	_mainCamera->Position(CustomMath::Vector2(hero->Position().x, hero->Position().y));
+	_mainCamera->Position(CustomMath::Vector2(heroPos.x, heroPos.y));
 
-	DrawImage(hero->GetSprite(), hero->Position());
+	//DrawImage(hero->GetSprite(), hero->Position());
 	DrawImage(testObj.GetSprite(), testObj.Position());
 	
 	//Presents the canvas.

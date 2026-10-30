@@ -33,6 +33,7 @@ public:
 	void Position(CustomMath::Vector3 newPos) {
 		_position = newPos;
 	}
+	virtual void Update(float deltaTime) override {}
 	CustomMath::Vector3 Position() {
 		return _position;
 	}
@@ -72,7 +73,7 @@ class Hero : public GameObject //Base hero class, implements health speed and mo
 protected:
 	int _maxHealth = 100;
 	float _health;
-	float speed = 2.0f;
+	float speed = 10.0f;
 	CustomMath::Vector2 inputVec = CustomMath::Vector2::Zero();
 
 public:
