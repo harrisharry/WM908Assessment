@@ -18,11 +18,11 @@ int main() {
     Hero* hero = new Hero();
     gameObjects.Add(hero);
     
+    Hero* hero2 = new Hero();
+    //gameObjects.Add(hero2);
+
     gameObjects.DebugList();
 
-    gameObjects.Remove(hero);
-    gameObjects.DebugList();
-    gameObjects.Begin();
     // Create a canvas window with dimensions 1024x768 and title “Tiles"
     bool running = true; // Variable to control the main loop's running state.
 
@@ -39,7 +39,8 @@ int main() {
 
         for (DataStructures::ListIterator iterator = gameObjects.Begin(); iterator != gameObjects.End();iterator++) {
 
-            
+
+            int hi = 5;
         }
 
 

@@ -161,8 +161,11 @@ namespace DataStructures {
 		}
 
 		ListIterator  operator ++() {
-			if (current->next == nullptr)
+			if (current->next == nullptr){
+				this->current = nullptr; //Source of infinite loop bug. Need to change this.current to be null, and then return this. Before was returning a nullptr copy version. Resulting in iterator in the loop to never be null.
 				return *this;
+			}
+				
 			
 			this->current = current->next.get();
 			return *this;
@@ -170,8 +173,6 @@ namespace DataStructures {
 		}
 
 		ListIterator  operator ++(int) {
-			if (current->next == nullptr)
-				return *this;
 
 			ListIterator iterator = *this; //Create a copy before any changes have been made to return.
 			++(*this); //Make the changes.
@@ -198,7 +199,7 @@ namespace DataStructures {
 			return this->current == other.current;
 		}
 		bool operator!=(const ListIterator& other) const {
-			return !(*this == other);
+			return !(this->current == other.current);
 		}
 		ReferenceType operator*() {
 			return *current;
@@ -225,7 +226,7 @@ namespace DataStructures {
 		}
 		//An iterator that points to the end of the list
 		Iterator End() {
-			return Iterator(tail);
+			return Iterator(nullptr); //Iterator where it points to null, meaning there is no current anymore.
 		}
 		//O(n) because at worst case, it will need to treverse all n elements.
 		Node<T>* Search(T keyValue) {
