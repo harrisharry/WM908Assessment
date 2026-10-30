@@ -2,14 +2,14 @@
 #include <iostream>
 
 GameObject testObj;
-
+SpriteSheet* monsterSheet1;
 /// <summary>
 /// Called when starting up the graphics engine. Default creates a window.
 /// </summary>
 /// <param name="sizeX"></param>
 /// <param name="sizeY"></param>
 void GraphicsEngine::StartUp(DataStructures::List<GameObject*>& objects,int sizeX, int sizeY) {
-
+	
 
 	gameObjects = &objects;
 	//Create a canvas.
@@ -24,13 +24,21 @@ void GraphicsEngine::StartUp(DataStructures::List<GameObject*>& objects,int size
 
 	//Create images that are required and store them.
 
-	GamesEngineeringBase::Image* currentLoaded = new GamesEngineeringBase::Image();
-	currentLoaded->load("./Resources/TestSprite.png"); //Test "hero" sprite.
-	_loadedSprites[0] = currentLoaded;
+	GamesEngineeringBase::Image* heroImage = new GamesEngineeringBase::Image();
+	heroImage->load("./Resources/TestSprite.png"); //Test "hero" sprite.
+	_loadedSprites[0] = heroImage;
+	GamesEngineeringBase::Image* monstersSheet = new GamesEngineeringBase::Image();
+	monstersSheet->load("./Resources/monsters.png");
+	_loadedSprites[5] = monstersSheet;
+
+	monsterSheet1 = new SpriteSheet("./Resources/monsters.png");
+
+
+
 	/*Create entities here to be drawn in update.
 	In future this would be stored in the actual main, then passed to the graphics engine to render sprites at the required positions*/
 	
-	testObj = GameObject(CustomMath::Vector3::Zero(), currentLoaded);
+	testObj = GameObject(CustomMath::Vector3::Zero(), heroImage);
 
 }
 void GraphicsEngine::Update(float deltaTime) {
@@ -49,23 +57,53 @@ void GraphicsEngine::Update(float deltaTime) {
 		DrawImage(sprite,pos);
 	}
 
+
+
+
 	//Any drawing required will go here.
-	//DrawImage(sprite1,CustomMath::Vector3::Zero() - CustomMath::Vector3(0,0,0));
-	//DrawImage(sprite1,CustomMath::Vector3::Zero() - CustomMath::Vector3(-250,-250,0));
 
 	_mainCamera->Position(CustomMath::Vector2(heroPos.x, heroPos.y));
 
 	//DrawImage(hero->GetSprite(), hero->Position());
 	DrawImage(testObj.GetSprite(), testObj.Position());
 	
+	DrawImage(1, 0, monsterSheet1);
+
 	//Presents the canvas.
-	
-	
 	_mainCanvas->present();
 }
 bool GraphicsEngine::ShouldClose() {
 	if (_mainCanvas->keyPressed(VK_ESCAPE)) return true;
 	return false;
+}
+void GraphicsEngine::DrawImage(unsigned int indexX, unsigned int indexY, SpriteSheet* spriteSheet) {
+	if (spriteSheet->SheetData() == nullptr) {
+		std::cout << "Sprite sheet had no image data!\n";
+		return;
+	}
+	
+	unsigned int width = spriteSheet->SpriteWidth(); // Height of sprites
+	unsigned int height = spriteSheet->SpriteHeight(); //Widht of sprites.
+
+	unsigned int widthStart = width * indexX; //Start of the x value of the image we want to draw in the sprite sheet. 
+	unsigned int heightStart = height * indexY; //Start of the y value of the image we want to draw in the sprite sheet.
+
+	for (int x = widthStart; x < widthStart + width; x++) { //widthStart + width represents the max x value of the Sprite we want to draw.
+		for (int y = heightStart; y < heightStart + height; y++) { //heightStart + height represents the max y value of the Sprite we want to draw.
+			
+			const unsigned int pixelIndex = (y * spriteSheet->SheetData()->width + x) * spriteSheet->SheetData()->channels; //y * first so that it starts with rows and not columns.
+
+
+			if (spriteSheet->SheetData()->channels == 3 || spriteSheet->SheetData()->data[pixelIndex + 3] != 0)
+			{
+				//std::cout << "X is " << x << " and Y is " << y << std::endl;
+				_mainCanvas->draw(x, y, &spriteSheet->SheetData()->data[pixelIndex]);
+			}
+			if (spriteSheet->SheetData()->channels == 4) {
+				_mainCanvas->draw(x, y, &spriteSheet->SheetData()->data[pixelIndex]);
+			}
+		}
+	}
 }
 void GraphicsEngine::DrawImage(const GamesEngineeringBase::Image* imageToDraw, CustomMath::Vector3 position) {
 
@@ -87,7 +125,7 @@ void GraphicsEngine::DrawImage(const GamesEngineeringBase::Image* imageToDraw, C
 		for (int y = 0; y < height; y++) {
 			
 
-			const unsigned int pixelIndex = (x * width + y) * imageToDraw->channels;
+			const unsigned int pixelIndex = (y * width + x) * imageToDraw->channels;
 
 			if (imageToDraw->channels == 3 || imageToDraw->data[pixelIndex + 3] != 0)
 			{

@@ -6,6 +6,7 @@
 #include "Camera2D.h"
 #include "DStructures.h"
 #include "Entity.h"
+#include "SpriteSheet.h"
 using namespace GamesEngineeringBase;
 //Responsible for creating the start of the game, and any other graphical requirements.
 class GraphicsEngine
@@ -25,6 +26,7 @@ public:
 	GamesEngineeringBase::Window* GetWindow() { return _mainCanvas; }
 	void StartUp(DataStructures::List<GameObject*>& objects,int sizeX = 200, int sizeY = 200);
 	void Update(float deltaTime);
+	void DrawImage(unsigned int indexX, unsigned int indexY, SpriteSheet* spriteSheet);
 	void DrawImage(const GamesEngineeringBase::Image* imageToDraw, CustomMath::Vector3 position);
 	bool ShouldClose();
 	GamesEngineeringBase::Image* GetSpriteAtIndex(unsigned int index) {

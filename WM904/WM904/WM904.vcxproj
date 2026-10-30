@@ -23,6 +23,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="FileLoader.h" />
     <ClInclude Include="PhysicsEngine.h" />
+    <ClInclude Include="SpriteSheet.h" />
     <ClInclude Include="src\Colour.h" />
     <ClInclude Include="src\DStructures.h" />
     <ClInclude Include="src\Entity.h" />
@@ -35,9 +36,13 @@
   <ItemGroup>
     <ClCompile Include="Camera2D.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
+    <ClCompile Include="SpriteSheet.cpp" />
     <ClCompile Include="src\GEBase.cpp" />
     <ClCompile Include="src\GraphicsEngine.cpp" />
     <ClCompile Include="src\Mathf.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="TestText.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>

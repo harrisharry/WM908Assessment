@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include "GamesEngineeringBase.h" // Include the GamesEngineeringBase 
 #include "Colour.h"
@@ -5,6 +6,7 @@
 #include "GraphicsEngine.h"
 #include <filesystem>
 #include "Entity.h"
+#include "FileLoader.h"
 
 #include "DStructures.h"
 using namespace std;
@@ -30,8 +32,7 @@ int main() {
     // Create a canvas window with dimensions 1024x768 and title “Tiles"
     bool running = true; // Variable to control the main loop's running state.
 
-    
-
+    //Loader::LoadFile("./Resources/testText.txt");
     //Main loop of the engine / system.
     while (running)
     {

@@ -1,27 +1,31 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include <FStream>
+#include <fstream>
 static class Loader {
 
 public:
-	bool LoadFile(std::string fileName) {
+	static bool LoadFile(std::string fileName) {
 		
-		std::ifstream infile(fileName);
-		if (infile.is_open()) {
+		std::ifstream inFile(fileName);
+		if (!inFile.is_open()) {
 			std::cout << "Failed to open file, because it is already open.\n";
 			return false;
 		}
 
 		std::string line;
 
-		while (std::getline(infile,line)) {
+		while (std::getline(inFile,line)) {
 
-
+			
+			std::cout << line << "\n";
 			
 
 		}
 
+		inFile.close();
+
+		return true;
 	}
 
 };
