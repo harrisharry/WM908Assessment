@@ -120,7 +120,7 @@ bool GraphicsEngine::DrawImage(SpriteDefinition* def, CustomMath::Vector3 positi
 		return false;
 	}
 
-	unsigned int width = def->GetSpriteSheet()->SpriteWidth(); // Height of sprites
+	unsigned int width = def->GetSpriteSheet()->SpriteWidth(); //Height of sprites
 	unsigned int height = def->GetSpriteSheet()->SpriteHeight(); //Widht of sprites.
 
 	unsigned int widthStart = width * def->indexX(); //Start of the x value of the image we want to draw in the sprite sheet. 
@@ -141,14 +141,15 @@ bool GraphicsEngine::DrawImage(SpriteDefinition* def, CustomMath::Vector3 positi
 			if (def->GetSpriteSheet()->SheetData()->channels == 3 || def->GetSpriteSheet()->SheetData()->data[pixelIndex + 3] != 0)
 			{
 				//std::cout << "X is " << x << " and Y is " << y << std::endl;
-				_mainCanvas->draw(x + screenPos.x - (width * 0.5f), y + screenPos.y - (height * 0.5f), &def->GetSpriteSheet()->SheetData()->data[pixelIndex]);
+				_mainCanvas->draw(xLoopIcrement + screenPos.x - (width * 0.5f), yLoopIcrement + screenPos.y - (height * 0.5f), &def->GetSpriteSheet()->SheetData()->data[pixelIndex]);
 			}
-			else if (def->GetSpriteSheet()->SheetData()->channels == 4) {
-				_mainCanvas->draw(x + screenPos.x, y + screenPos.y, &def->GetSpriteSheet()->SheetData()->data[pixelIndex]);
-			}
+			//else if (def->GetSpriteSheet()->SheetData()->channels == 4) {
+			//	_mainCanvas->draw(x + screenPos.x - (width * 0.5f), y + screenPos.y - (height * 0.5f), &def->GetSpriteSheet()->SheetData()->data[pixelIndex]);
+			//}
 			yLoopIcrement++;
 		}
 		xLoopIcrement++;
+		yLoopIcrement = 0;
 	}
 
 	return true;

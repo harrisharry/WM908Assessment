@@ -28,7 +28,7 @@ int main() {
     gameObjects.Add(hero); //Add it to the gameobjects list.
     
     //Set the sprite of the object using the preloaded ones from the graphics engine.
-    hero->SetSprite(graphics.GetSpriteDef(Default));
+    hero->SetSprite(graphics.GetSpriteDef(Wizard));
 
     // Create a canvas window with dimensions 1024x768 and title “Tiles"
     bool running = true; // Variable to control the main loop's running state.
