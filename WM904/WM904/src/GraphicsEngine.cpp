@@ -37,6 +37,9 @@ void GraphicsEngine::StartUp(DataStructures::List<GameObject*>& objects,int size
 	SpriteDefinition* wizard = new SpriteDefinition(1,0,monsterSheet1);
 	spriteDefs[0] = wizard;
 
+	SpriteDefinition* firstSprite = new SpriteDefinition(0,0,monsterSheet1);
+	spriteDefs[1] = firstSprite;
+
 
 
 	/*Create entities here to be drawn in update.
@@ -48,7 +51,6 @@ void GraphicsEngine::StartUp(DataStructures::List<GameObject*>& objects,int size
 void GraphicsEngine::Update(float deltaTime) {
 	//Clears the entire screen before continuing.
 	_mainCanvas->clear();
-	//Get input for this frame
 
 
 	CustomMath::Vector3 heroPos = gameObjects->Begin()->data->Position();
@@ -69,9 +71,7 @@ void GraphicsEngine::Update(float deltaTime) {
 	//Any drawing required will go here.
 
 	_mainCamera->Position(CustomMath::Vector2(heroPos.x, heroPos.y));
-
-	//DrawImage(hero->GetSprite(), hero->Position());
-	DrawImage(testObj.GetSprite(), testObj.Position());
+	DrawImage(testObj.GetSprite(), testObj.Position()); //Draw the test yellow png for movement reference.
 	
 
 	//Presents the canvas.
@@ -102,11 +102,11 @@ bool GraphicsEngine::DrawImage(unsigned int indexX, unsigned int indexY, SpriteS
 			const unsigned int pixelIndex = (y * spriteSheet->SheetData()->width + x) * spriteSheet->SheetData()->channels; //y * first so that it starts with rows and not columns.
 
 
-			if (spriteSheet->SheetData()->channels == 3 || spriteSheet->SheetData()->data[pixelIndex + 3] != 0)
-			{
-				//std::cout << "X is " << x << " and Y is " << y << std::endl;
-				_mainCanvas->draw(x, y, &spriteSheet->SheetData()->data[pixelIndex]);
-			}
+			//if (spriteSheet->SheetData()->channels == 3 || spriteSheet->SheetData()->data[pixelIndex + 3] != 0)
+			//{
+			//	//std::cout << "X is " << x << " and Y is " << y << std::endl;
+			//	_mainCanvas->draw(x, y, &spriteSheet->SheetData()->data[pixelIndex]);
+			//}
 			if (spriteSheet->SheetData()->channels == 4) {
 				_mainCanvas->draw(x + screenPos.x, y + screenPos.y, &spriteSheet->SheetData()->data[pixelIndex]);
 			}
@@ -129,6 +129,9 @@ bool GraphicsEngine::DrawImage(SpriteDefinition* def, CustomMath::Vector3 positi
 	//Calculate draw position from world space to screen.
 	CustomMath::Vector3 screenPos = position - _mainCamera->Position() + _mainCamera->Offset();
 
+	int xLoopIcrement = 0;
+	int yLoopIcrement = 0;
+
 	for (int x = widthStart; x < widthStart + width; x++) { //widthStart + width represents the max x value of the Sprite we want to draw.
 		for (int y = heightStart; y < heightStart + height; y++) { //heightStart + height represents the max y value of the Sprite we want to draw.
 
@@ -138,12 +141,14 @@ bool GraphicsEngine::DrawImage(SpriteDefinition* def, CustomMath::Vector3 positi
 			if (def->GetSpriteSheet()->SheetData()->channels == 3 || def->GetSpriteSheet()->SheetData()->data[pixelIndex + 3] != 0)
 			{
 				//std::cout << "X is " << x << " and Y is " << y << std::endl;
+				_mainCanvas->draw(x + screenPos.x - (width * 0.5f), y + screenPos.y - (height * 0.5f), &def->GetSpriteSheet()->SheetData()->data[pixelIndex]);
+			}
+			else if (def->GetSpriteSheet()->SheetData()->channels == 4) {
 				_mainCanvas->draw(x + screenPos.x, y + screenPos.y, &def->GetSpriteSheet()->SheetData()->data[pixelIndex]);
 			}
-			if (def->GetSpriteSheet()->SheetData()->channels == 4) {
-				_mainCanvas->draw(x, y, &def->GetSpriteSheet()->SheetData()->data[pixelIndex]);
-			}
+			yLoopIcrement++;
 		}
+		xLoopIcrement++;
 	}
 
 	return true;

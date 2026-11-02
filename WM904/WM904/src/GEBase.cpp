@@ -26,8 +26,9 @@ int main() {
 
     Hero* hero = new Hero; //Create the object.
     gameObjects.Add(hero); //Add it to the gameobjects list.
-    //hero->SetSprite(graphics.GetSpriteAtIndex(HeroSprite)); //Set the sprite of the object using the preloaded ones from the graphics engine.
-    hero->SetSprite(graphics.GetSpriteDef(Wizard));
+    
+    //Set the sprite of the object using the preloaded ones from the graphics engine.
+    hero->SetSprite(graphics.GetSpriteDef(Default));
 
     // Create a canvas window with dimensions 1024x768 and title “Tiles"
     bool running = true; // Variable to control the main loop's running state.
@@ -50,6 +51,7 @@ int main() {
             totalInput += CustomMath::Vector2(1, 0);
 
         hero->SetInputVec(totalInput);
+
 
 
         graphics.Update(0.0166);

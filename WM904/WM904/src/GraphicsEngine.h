@@ -13,6 +13,7 @@ using namespace GamesEngineeringBase;
 enum Sprites
 {
 	Wizard,
+	Default,
 };
 
 
