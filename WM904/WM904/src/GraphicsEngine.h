@@ -27,6 +27,7 @@ public:
 	void StartUp(DataStructures::List<GameObject*>& objects,int sizeX = 200, int sizeY = 200);
 	void Update(float deltaTime);
 	void DrawImage(unsigned int indexX, unsigned int indexY, SpriteSheet* spriteSheet);
+	void DrawImage(SpriteDefinition def, SpriteSheet* spriteSheet);
 	void DrawImage(const GamesEngineeringBase::Image* imageToDraw, CustomMath::Vector3 position);
 	bool ShouldClose();
 	GamesEngineeringBase::Image* GetSpriteAtIndex(unsigned int index) {

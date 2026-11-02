@@ -68,6 +68,8 @@ void GraphicsEngine::Update(float deltaTime) {
 	DrawImage(testObj.GetSprite(), testObj.Position());
 	
 	DrawImage(1, 0, monsterSheet1);
+	//SpriteDefinition wizardSprite(1, 0);
+	//DrawImage(wizardSprite,monsterSheet1);
 
 	//Presents the canvas.
 	_mainCanvas->present();
@@ -91,6 +93,35 @@ void GraphicsEngine::DrawImage(unsigned int indexX, unsigned int indexY, SpriteS
 	for (int x = widthStart; x < widthStart + width; x++) { //widthStart + width represents the max x value of the Sprite we want to draw.
 		for (int y = heightStart; y < heightStart + height; y++) { //heightStart + height represents the max y value of the Sprite we want to draw.
 			
+			const unsigned int pixelIndex = (y * spriteSheet->SheetData()->width + x) * spriteSheet->SheetData()->channels; //y * first so that it starts with rows and not columns.
+
+
+			if (spriteSheet->SheetData()->channels == 3 || spriteSheet->SheetData()->data[pixelIndex + 3] != 0)
+			{
+				//std::cout << "X is " << x << " and Y is " << y << std::endl;
+				_mainCanvas->draw(x, y, &spriteSheet->SheetData()->data[pixelIndex]);
+			}
+			if (spriteSheet->SheetData()->channels == 4) {
+				_mainCanvas->draw(x, y, &spriteSheet->SheetData()->data[pixelIndex]);
+			}
+		}
+	}
+}
+void GraphicsEngine::DrawImage(SpriteDefinition def, SpriteSheet* spriteSheet) {
+	if (spriteSheet->SheetData() == nullptr) {
+		std::cout << "Sprite sheet had no image data!\n";
+		return;
+	}
+
+	unsigned int width = spriteSheet->SpriteWidth(); // Height of sprites
+	unsigned int height = spriteSheet->SpriteHeight(); //Widht of sprites.
+
+	unsigned int widthStart = width * def.xIndex; //Start of the x value of the image we want to draw in the sprite sheet. 
+	unsigned int heightStart = height * def.yIndex; //Start of the y value of the image we want to draw in the sprite sheet.
+
+	for (int x = widthStart; x < widthStart + width; x++) { //widthStart + width represents the max x value of the Sprite we want to draw.
+		for (int y = heightStart; y < heightStart + height; y++) { //heightStart + height represents the max y value of the Sprite we want to draw.
+
 			const unsigned int pixelIndex = (y * spriteSheet->SheetData()->width + x) * spriteSheet->SheetData()->channels; //y * first so that it starts with rows and not columns.
 
 
