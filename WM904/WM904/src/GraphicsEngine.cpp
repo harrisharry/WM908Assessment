@@ -29,9 +29,13 @@ void GraphicsEngine::StartUp(DataStructures::List<GameObject*>& objects,int size
 	_loadedSprites[0] = heroImage;
 	GamesEngineeringBase::Image* monstersSheet = new GamesEngineeringBase::Image();
 	monstersSheet->load("./Resources/monsters.png");
-	_loadedSprites[5] = monstersSheet;
+	//_loadedSprites[5] = monstersSheet;
 
 	monsterSheet1 = new SpriteSheet("./Resources/monsters.png");
+
+	//Define sprite definitions for easy use in the sprite sheet.
+	SpriteDefinition* wizard = new SpriteDefinition(1,0,monsterSheet1);
+	spriteDefs[0] = wizard;
 
 
 
@@ -54,7 +58,9 @@ void GraphicsEngine::Update(float deltaTime) {
 		CustomMath::Vector3 pos = it->data->Position();
 
 
-		DrawImage(sprite,pos);
+		if (!DrawImage(sprite, pos)) { //Draw the image, but GamesEngineeringBase::Image*
+			DrawImage(it->data->GetSpriteDef(),pos); //If the drawing returns false, then that means we need to draw a sprite definition instead.
+		}
 	}
 
 
@@ -67,9 +73,6 @@ void GraphicsEngine::Update(float deltaTime) {
 	//DrawImage(hero->GetSprite(), hero->Position());
 	DrawImage(testObj.GetSprite(), testObj.Position());
 	
-	DrawImage(1, 0, monsterSheet1);
-	//SpriteDefinition wizardSprite(1, 0);
-	//DrawImage(wizardSprite,monsterSheet1);
 
 	//Presents the canvas.
 	_mainCanvas->present();
@@ -78,10 +81,10 @@ bool GraphicsEngine::ShouldClose() {
 	if (_mainCanvas->keyPressed(VK_ESCAPE)) return true;
 	return false;
 }
-void GraphicsEngine::DrawImage(unsigned int indexX, unsigned int indexY, SpriteSheet* spriteSheet) {
+bool GraphicsEngine::DrawImage(unsigned int indexX, unsigned int indexY, SpriteSheet* spriteSheet, CustomMath::Vector3 position) {
 	if (spriteSheet->SheetData() == nullptr) {
 		std::cout << "Sprite sheet had no image data!\n";
-		return;
+		return false;
 	}
 	
 	unsigned int width = spriteSheet->SpriteWidth(); // Height of sprites
@@ -89,6 +92,9 @@ void GraphicsEngine::DrawImage(unsigned int indexX, unsigned int indexY, SpriteS
 
 	unsigned int widthStart = width * indexX; //Start of the x value of the image we want to draw in the sprite sheet. 
 	unsigned int heightStart = height * indexY; //Start of the y value of the image we want to draw in the sprite sheet.
+
+	//Calculate draw position from world space to screen.
+	CustomMath::Vector3 screenPos = position - _mainCamera->Position() + _mainCamera->Offset();
 
 	for (int x = widthStart; x < widthStart + width; x++) { //widthStart + width represents the max x value of the Sprite we want to draw.
 		for (int y = heightStart; y < heightStart + height; y++) { //heightStart + height represents the max y value of the Sprite we want to draw.
@@ -102,45 +108,51 @@ void GraphicsEngine::DrawImage(unsigned int indexX, unsigned int indexY, SpriteS
 				_mainCanvas->draw(x, y, &spriteSheet->SheetData()->data[pixelIndex]);
 			}
 			if (spriteSheet->SheetData()->channels == 4) {
-				_mainCanvas->draw(x, y, &spriteSheet->SheetData()->data[pixelIndex]);
+				_mainCanvas->draw(x + screenPos.x, y + screenPos.y, &spriteSheet->SheetData()->data[pixelIndex]);
 			}
 		}
 	}
+	return true;
 }
-void GraphicsEngine::DrawImage(SpriteDefinition def, SpriteSheet* spriteSheet) {
-	if (spriteSheet->SheetData() == nullptr) {
+bool GraphicsEngine::DrawImage(SpriteDefinition* def, CustomMath::Vector3 position) {
+	if (def->GetSpriteSheet() == nullptr) {
 		std::cout << "Sprite sheet had no image data!\n";
-		return;
+		return false;
 	}
 
-	unsigned int width = spriteSheet->SpriteWidth(); // Height of sprites
-	unsigned int height = spriteSheet->SpriteHeight(); //Widht of sprites.
+	unsigned int width = def->GetSpriteSheet()->SpriteWidth(); // Height of sprites
+	unsigned int height = def->GetSpriteSheet()->SpriteHeight(); //Widht of sprites.
 
-	unsigned int widthStart = width * def.xIndex; //Start of the x value of the image we want to draw in the sprite sheet. 
-	unsigned int heightStart = height * def.yIndex; //Start of the y value of the image we want to draw in the sprite sheet.
+	unsigned int widthStart = width * def->indexX(); //Start of the x value of the image we want to draw in the sprite sheet. 
+	unsigned int heightStart = height * def->indexY(); //Start of the y value of the image we want to draw in the sprite sheet.
+
+	//Calculate draw position from world space to screen.
+	CustomMath::Vector3 screenPos = position - _mainCamera->Position() + _mainCamera->Offset();
 
 	for (int x = widthStart; x < widthStart + width; x++) { //widthStart + width represents the max x value of the Sprite we want to draw.
 		for (int y = heightStart; y < heightStart + height; y++) { //heightStart + height represents the max y value of the Sprite we want to draw.
 
-			const unsigned int pixelIndex = (y * spriteSheet->SheetData()->width + x) * spriteSheet->SheetData()->channels; //y * first so that it starts with rows and not columns.
+			const unsigned int pixelIndex = (y * def->GetSpriteSheet()->SheetData()->width + x) * def->GetSpriteSheet()->SheetData()->channels; //y * first so that it starts with rows and not columns.
 
 
-			if (spriteSheet->SheetData()->channels == 3 || spriteSheet->SheetData()->data[pixelIndex + 3] != 0)
+			if (def->GetSpriteSheet()->SheetData()->channels == 3 || def->GetSpriteSheet()->SheetData()->data[pixelIndex + 3] != 0)
 			{
 				//std::cout << "X is " << x << " and Y is " << y << std::endl;
-				_mainCanvas->draw(x, y, &spriteSheet->SheetData()->data[pixelIndex]);
+				_mainCanvas->draw(x + screenPos.x, y + screenPos.y, &def->GetSpriteSheet()->SheetData()->data[pixelIndex]);
 			}
-			if (spriteSheet->SheetData()->channels == 4) {
-				_mainCanvas->draw(x, y, &spriteSheet->SheetData()->data[pixelIndex]);
+			if (def->GetSpriteSheet()->SheetData()->channels == 4) {
+				_mainCanvas->draw(x, y, &def->GetSpriteSheet()->SheetData()->data[pixelIndex]);
 			}
 		}
 	}
-}
-void GraphicsEngine::DrawImage(const GamesEngineeringBase::Image* imageToDraw, CustomMath::Vector3 position) {
 
-	if (imageToDraw->data == nullptr) {
+	return true;
+}
+bool GraphicsEngine::DrawImage(const GamesEngineeringBase::Image* imageToDraw, CustomMath::Vector3 position) {
+
+	if (imageToDraw == nullptr) {
 		std::cout << "Draw request had no image data!\n";
-		return;
+		return false;
 	}
 
 	unsigned int height = imageToDraw->height;
@@ -165,7 +177,7 @@ void GraphicsEngine::DrawImage(const GamesEngineeringBase::Image* imageToDraw, C
 			}
 		}
 	}
-
+	return true;
 }
 void GraphicsEngine::SetBackground(Colour::Colour colour) {
 

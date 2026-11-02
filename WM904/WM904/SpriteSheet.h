@@ -23,13 +23,19 @@ public:
 //Used to create sprites and can be used to draw sprices instead of learning sprites by position in the sprite sheet every time you want to use them.
 class SpriteDefinition {
 
+private:
+	unsigned int _xIndex = 0;
+	unsigned int _yIndex = 0;
+	SpriteSheet* _sheet;
 public:
-	unsigned int xIndex = 0;
-	unsigned int yIndex = 0;
-
-	SpriteDefinition(unsigned int x, unsigned int y) {
-		xIndex = x;
-		yIndex = y;
+	SpriteDefinition(unsigned int x, unsigned int y,SpriteSheet* sheetToRef) {
+		_xIndex = x;
+		_yIndex = y;
+		_sheet = sheetToRef;
 	}
+	
+	SpriteSheet* GetSpriteSheet() { return _sheet; }
+	int indexX() const { return _xIndex; }
+	int indexY() const { return _yIndex; }
 ;
 };

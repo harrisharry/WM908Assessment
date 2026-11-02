@@ -20,14 +20,14 @@ int main() {
 
     DataStructures::List<GameObject*> gameObjects;
 
-
     GraphicsEngine graphics;
     graphics.StartUp(gameObjects);
 
 
     Hero* hero = new Hero; //Create the object.
     gameObjects.Add(hero); //Add it to the gameobjects list.
-    hero->SetSprite(graphics.GetSpriteAtIndex(HeroSprite)); //Set the sprite of the object using the preloaded ones from the graphics engine.
+    //hero->SetSprite(graphics.GetSpriteAtIndex(HeroSprite)); //Set the sprite of the object using the preloaded ones from the graphics engine.
+    hero->SetSprite(graphics.GetSpriteDef(Wizard));
 
     // Create a canvas window with dimensions 1024x768 and title “Tiles"
     bool running = true; // Variable to control the main loop's running state.

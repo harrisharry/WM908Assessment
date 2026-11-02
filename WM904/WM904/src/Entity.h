@@ -2,6 +2,7 @@
 
 #include "src/Mathf.h"
 #include "GamesEngineeringBase.h"
+#include "SpriteSheet.h"
 class Entity {
 protected:
 	CustomMath::Vector3 _position = CustomMath::Vector3::Zero();
@@ -18,16 +19,34 @@ class Sprite : public Entity {
 protected:
 	//Raw pointer to the image data. Stored on the heap, no copies.
 	GamesEngineeringBase::Image* _spriteImage;
+	SpriteDefinition* _spriteDef; //Also acts as the sprite.
 public:
 	Sprite() : Entity()
 	{
 
 	}
-	Sprite(CustomMath::Vector3 position, GamesEngineeringBase::Image* spriteImage) : Entity() {
+	Sprite(CustomMath::Vector3 position, GamesEngineeringBase::Image* spriteImage = nullptr) : Entity() {
 		_position = position;
 		_spriteImage = spriteImage;
 	}
+	Sprite(CustomMath::Vector3 position, SpriteDefinition* def) : Entity() {
+		_position = position;
+		_spriteImage = nullptr;
+		_spriteDef = def;
+	}
 
+	GamesEngineeringBase::Image* GetSprite() {
+		return _spriteImage;
+	}
+	SpriteDefinition* GetSpriteDef() {
+		return _spriteDef;
+	}
+	virtual void SetSprite(GamesEngineeringBase::Image* newSprite) {
+		_spriteImage = newSprite;
+	}
+	virtual void SetSprite(SpriteDefinition* def) {
+		_spriteDef = def;
+	}
 
 	//Getters and setters.
 	void Position(CustomMath::Vector3 newPos) {
@@ -50,16 +69,6 @@ public:
 
 	}
 
-	/// <summary>
-	/// Changes this objects visual representation.
-	/// </summary>
-	/// <param name="newSprite">The preloaded image to be used when drawing this object</param>
-	void SetSprite(GamesEngineeringBase::Image* newSprite) {
-		_spriteImage = newSprite;
-	}
-	GamesEngineeringBase::Image* GetSprite() {
-		return _spriteImage;
-	}
 
 	virtual void Update(float deltaTime) override {
 
