@@ -259,7 +259,6 @@ namespace DataStructures {
 				Node<T>* temp = tail; //Get a pointer to the now previous node to the one we have created.
 				tail = tail->next.get(); //The new tail has now moved, tail-> is already pointing to the newly created node, so set tail to point to that now new node
 				tail->prev = temp; //Now set the new node's previous pointer to be that of the temp value(Stored before hand so we could do this.)
-				std::cout << tail->prev->data;
 			}
 			
 			size++; //Increment size at the end of the function, as we have now increased the total size of this list.

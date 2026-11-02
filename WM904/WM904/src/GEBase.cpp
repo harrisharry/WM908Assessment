@@ -26,7 +26,7 @@ int main() {
 
 
     for (int i = 0; i < 11; i++) {
-        for (int j = 0; j < 5; j++) {
+        for (int j = 0; j < 2; j++) {
             GameObject* tile = new GameObject();
             tile->SetSprite(graphics.GetSpriteDef(5));
             tile->Position(CustomMath::Vector3(i, j, 0));
