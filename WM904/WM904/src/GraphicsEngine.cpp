@@ -40,6 +40,11 @@ void GraphicsEngine::StartUp(DataStructures::List<GameObject*>& objects,int size
 	SpriteDefinition* firstSprite = new SpriteDefinition(0,0,monsterSheet1);
 	spriteDefs[1] = firstSprite;
 
+	SpriteSheet* tileSheet = new SpriteSheet("./Resources/tiles.png");
+
+	SpriteDefinition* backgroundTile = new SpriteDefinition(0,0,tileSheet);
+	spriteDefs[5] = backgroundTile;
+
 
 
 	/*Create entities here to be drawn in update.
@@ -53,7 +58,7 @@ void GraphicsEngine::Update(float deltaTime) {
 	_mainCanvas->clear();
 
 
-	CustomMath::Vector3 heroPos = gameObjects->Begin()->data->Position();
+	//CustomMath::Vector3 heroPos = gameObjects->Last()->data->Position();
 
 	for (DataStructures::ListIterator it = gameObjects->Begin(); it != gameObjects->End(); it++) {
 		GamesEngineeringBase::Image* sprite = it->data->GetSprite();
@@ -65,12 +70,6 @@ void GraphicsEngine::Update(float deltaTime) {
 		}
 	}
 
-
-
-
-	//Any drawing required will go here.
-
-	_mainCamera->Position(CustomMath::Vector2(heroPos.x, heroPos.y));
 	DrawImage(testObj.GetSprite(), testObj.Position()); //Draw the test yellow png for movement reference.
 	
 
@@ -83,12 +82,11 @@ bool GraphicsEngine::ShouldClose() {
 }
 bool GraphicsEngine::DrawImage(unsigned int indexX, unsigned int indexY, SpriteSheet* spriteSheet, CustomMath::Vector3 position) {
 	if (spriteSheet->SheetData() == nullptr) {
-		std::cout << "Sprite sheet had no image data!\n";
 		return false;
 	}
 	
-	unsigned int width = spriteSheet->SpriteWidth(); // Height of sprites
-	unsigned int height = spriteSheet->SpriteHeight(); //Widht of sprites.
+	unsigned int width = spriteSheet->SpriteWidth();   // Height of sprites
+	unsigned int height = spriteSheet->SpriteHeight(); // Widht of sprites.
 
 	unsigned int widthStart = width * indexX; //Start of the x value of the image we want to draw in the sprite sheet. 
 	unsigned int heightStart = height * indexY; //Start of the y value of the image we want to draw in the sprite sheet.
@@ -116,7 +114,6 @@ bool GraphicsEngine::DrawImage(unsigned int indexX, unsigned int indexY, SpriteS
 }
 bool GraphicsEngine::DrawImage(SpriteDefinition* def, CustomMath::Vector3 position) {
 	if (def->GetSpriteSheet() == nullptr) {
-		std::cout << "Sprite sheet had no image data!\n";
 		return false;
 	}
 
@@ -127,7 +124,7 @@ bool GraphicsEngine::DrawImage(SpriteDefinition* def, CustomMath::Vector3 positi
 	unsigned int heightStart = height * def->indexY(); //Start of the y value of the image we want to draw in the sprite sheet.
 
 	//Calculate draw position from world space to screen.
-	CustomMath::Vector3 screenPos = position - _mainCamera->Position() + _mainCamera->Offset();
+	CustomMath::Vector3 screenPos = (position * _pixelPerUnit) - _mainCamera->Position() + _mainCamera->Offset();
 
 	int xLoopIcrement = 0;
 	int yLoopIcrement = 0;
@@ -157,7 +154,6 @@ bool GraphicsEngine::DrawImage(SpriteDefinition* def, CustomMath::Vector3 positi
 bool GraphicsEngine::DrawImage(const GamesEngineeringBase::Image* imageToDraw, CustomMath::Vector3 position) {
 
 	if (imageToDraw == nullptr) {
-		std::cout << "Draw request had no image data!\n";
 		return false;
 	}
 

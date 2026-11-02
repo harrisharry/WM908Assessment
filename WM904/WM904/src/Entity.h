@@ -23,7 +23,8 @@ protected:
 public:
 	Sprite() : Entity()
 	{
-
+		_spriteImage = nullptr;
+		_spriteDef = nullptr;
 	}
 	Sprite(CustomMath::Vector3 position, GamesEngineeringBase::Image* spriteImage = nullptr) : Entity() {
 		_position = position;
@@ -82,7 +83,7 @@ class Hero : public GameObject //Base hero class, implements health speed and mo
 protected:
 	int _maxHealth = 100;
 	float _health;
-	float speed = 10.0f;
+	float speed = .5f;
 	CustomMath::Vector2 inputVec = CustomMath::Vector2::Zero();
 
 public:

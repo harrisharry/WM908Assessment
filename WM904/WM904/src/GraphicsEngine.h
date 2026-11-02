@@ -29,13 +29,13 @@ private:
 	GamesEngineeringBase::Image* _loadedSprites[5];
 	Colour::Colour defaultColour = Colour::Colour(128,0,128);
 	ShapeDrawer2D* _shapeManager;
-	
+	const unsigned int _pixelPerUnit = 32;
 
 	void SetBackground(Colour::Colour colour);
 public:
 	GraphicsEngine() = default;
 	GamesEngineeringBase::Window* GetWindow() { return _mainCanvas; }
-	void StartUp(DataStructures::List<GameObject*>& objects,int sizeX = 200, int sizeY = 200);
+	void StartUp(DataStructures::List<GameObject*>& objects,int sizeX = 320, int sizeY = 180);
 	void Update(float deltaTime);
 	bool DrawImage(unsigned int indexX, unsigned int indexY, SpriteSheet* spriteSheet, CustomMath::Vector3 position);
 	bool DrawImage(SpriteDefinition* def, CustomMath::Vector3 position);
@@ -46,6 +46,7 @@ public:
 	}
 
 	SpriteDefinition* GetSpriteDef(Sprites sprite) { return spriteDefs[(int)sprite]; }
+	SpriteDefinition* GetSpriteDef(int index) { return spriteDefs[index]; }
 	//void DrawSprite(Here will be a Sprite class.);// Function to draw a given sprite. Will be usefull when implementing game objects etc.
 };
 

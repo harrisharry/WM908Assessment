@@ -24,9 +24,21 @@ int main() {
     graphics.StartUp(gameObjects);
 
 
+
+    for (int i = 0; i < 11; i++) {
+        for (int j = 0; j < 5; j++) {
+            GameObject* tile = new GameObject();
+            tile->SetSprite(graphics.GetSpriteDef(5));
+            tile->Position(CustomMath::Vector3(i, j, 0));
+            gameObjects.Add(tile);
+        }
+    }
+
+
     Hero* hero = new Hero; //Create the object.
+    hero->Position(CustomMath::Vector3(0,0,0));
     gameObjects.Add(hero); //Add it to the gameobjects list.
-    
+
     //Set the sprite of the object using the preloaded ones from the graphics engine.
     hero->SetSprite(graphics.GetSpriteDef(Wizard));
 

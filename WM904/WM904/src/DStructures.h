@@ -303,8 +303,11 @@ namespace DataStructures {
 		int Size() {
 			return size;
 		}
-		void Traverse() {
-
+		Node<T>* Last() {
+			return tail;
+		}
+		Node<T>* First(){
+			return head.get();
 		}
 		void DebugList() {
 
