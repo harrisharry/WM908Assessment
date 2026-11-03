@@ -1,7 +1,8 @@
 #pragma once
 
-#include "src/Mathf.h"
+#include "Mathf.h"
 #include "GamesEngineeringBase.h"
+#include "Collider.h"
 #include "SpriteSheet.h"
 class Entity {
 protected:
@@ -10,7 +11,7 @@ protected:
 public:
 
 	Entity() {
-	
+		_position = CustomMath::Vector3::Zero();
 	}
 	virtual void Update(float deltaTime) = 0;
 };
@@ -61,9 +62,12 @@ public:
 
 class GameObject : public Sprite
 {
+protected:
+	Collider* _collider = nullptr;
 public:
 
 	GameObject() : Sprite(){
+		
 	}
 
 	GameObject(CustomMath::Vector3 position,GamesEngineeringBase::Image* spriteImage) : Sprite(position,spriteImage) {
@@ -72,9 +76,14 @@ public:
 
 
 	virtual void Update(float deltaTime) override {
-
+		if(_collider != nullptr)
+			_collider->Position(_position);
 	}
 
+	void SetCollider(Collider* collider) {
+		_collider = collider;
+	}
+	Collider* Collider() { return _collider; }
 
 };
 
@@ -83,7 +92,7 @@ class Hero : public GameObject //Base hero class, implements health speed and mo
 protected:
 	int _maxHealth = 100;
 	float _health;
-	float speed = .5f;
+	float speed = .05f;
 	CustomMath::Vector2 inputVec = CustomMath::Vector2::Zero();
 
 public:
@@ -99,7 +108,7 @@ public:
 	bool CheckDead(){
 		return _health < 0;
 	}
-	virtual void Update(float deltaTime) override{
+	virtual void Update(float deltaTime) override { 
 		
 
 
@@ -112,10 +121,13 @@ public:
 		//Deal with movement.
 
 		_position = _position + (inputVec * deltaTime) * speed; //Calculate new position.
-
 		inputVec = CustomMath::Vector2::Zero(); //Reset input for the next frame.
+
+		if(!_collider)
+			_collider->Position(_position);
 	}
 	void SetInputVec(CustomMath::Vector2 newInput) {
+		newInput.Normalise();
 		inputVec = newInput;
 	}
 };

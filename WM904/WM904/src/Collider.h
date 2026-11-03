@@ -1,5 +1,5 @@
 #pragma once
-#include "src/Mathf.h"
+#include "Mathf.h"
 
 class BoxCollider;
 class SphereCollider;
@@ -12,10 +12,13 @@ protected:
 	bool moves = false;
 
 public:
-	virtual bool CheckCollision(SphereCollider& other) = 0;
-	virtual bool CheckCollision(BoxCollider& other) = 0;
+	virtual bool CheckCollision(Collider* other) = 0;
+	virtual bool CheckCollision(SphereCollider* other) = 0;
+	virtual bool CheckCollision(BoxCollider* other) = 0;
 
 	//Getters and setters.
+	void Position(CustomMath::Vector3 pos) { _position = pos; }
+	CustomMath::Vector3 Position() { return _position; }
 	void Move(bool can) {
 		moves = can;
 	}
@@ -44,18 +47,20 @@ public:
 	}
 	CustomMath::Vector3 Position() { return _position;  }
 	float Radius() { return _radius; }
-
-	virtual bool CheckCollision(SphereCollider& other) override {
+	virtual bool CheckCollision(Collider* other) override {
+		return other->CheckCollision(this);
+	}
+	virtual bool CheckCollision(SphereCollider* other) override {
 		
 		//Get distance between colliders
-		float distance = _position.Distance(other.Position());
-
-		if (distance >= other.Radius() + _radius) {
+		float distance = _position.Distance(other->Position());
+		
+		if (distance >= other->Radius() + _radius) {
 			return false; 
 		}
 		return true;
 	}
-	virtual bool CheckCollision(BoxCollider& other) override {
+	virtual bool CheckCollision(BoxCollider* other) override {
 
 		return false;
 	}
@@ -122,19 +127,21 @@ public:
 		_maxPoint = CalculateMax();
 		_minPoint = CalculateMin();
 	}
-	
-	virtual bool CheckCollision(SphereCollider& other) override {
-		return other.CheckCollision(*this);
+	virtual bool CheckCollision(Collider* other) override {
+		return other->CheckCollision(this);
 	}
-	virtual bool CheckCollision(BoxCollider& other) override {
+	virtual bool CheckCollision(SphereCollider* other) override {
+		return other->CheckCollision(this);
+	}
+	virtual bool CheckCollision(BoxCollider* other) override {
 
 		//Check if the x axis are overlapping
 		//If the max x of box a is less than the min x of box b, they are seperated or if the min x of box a is greather than the max x of box b, then there is a seperation in the opposite direction.
-		if (_maxPoint.x <= other._minPoint.x || _minPoint.x >= other._maxPoint.x){
+		if (_maxPoint.x <= other->_minPoint.x || _minPoint.x >= other->_maxPoint.x){
 			return false; //There is a seperation so they arent colliding.
 		}
 		//Check if now there is a seperation in the y direction.
-		if (_maxPoint.y <= other._minPoint.y || _minPoint.y >= other._maxPoint.y) {
+		if (_maxPoint.y <= other->_minPoint.y || _minPoint.y >= other->_maxPoint.y) {
 			//There is seperation in the y axis return false. They are not colliding.
 			return false;
 		}

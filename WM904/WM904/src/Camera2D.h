@@ -1,6 +1,6 @@
 #pragma once
-#include "src/GamesEngineeringBase.h"
-#include "src/Mathf.h"
+#include "GamesEngineeringBase.h"
+#include "Mathf.h"
 class Camera2D
 {	
 private:
@@ -20,7 +20,6 @@ public:
 
 	CustomMath::Vector2 Offset() { return _cameraOffset; }
 	void Position(CustomMath::Vector2 newPos) {
-
 		_position = newPos;
 	}
 	CustomMath::Vector2 Position() { return _position; }

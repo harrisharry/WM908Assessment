@@ -1,5 +1,5 @@
 #pragma once
-#include "src/GamesEngineeringBase.h"
+#include "GamesEngineeringBase.h"
 
 class SpriteSheet {
 private:

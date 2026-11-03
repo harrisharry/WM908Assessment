@@ -62,6 +62,13 @@ namespace CustomMath
 			std::cout << "Distance value is " << result << std::endl;	
 			return result;
 		}
+		void Normalise() {
+			float magnitude = sqrt((pow(x,2) + pow(y,2)));
+
+			if (magnitude == 0) return; //Make sure we dont divide by 0.
+			x  = x / magnitude;
+			y = y / magnitude;
+		}
 
 		float Length() {
 
@@ -134,7 +141,6 @@ namespace CustomMath
 		float Distance(CustomMath::Vector3 vec) const {
 
 			float result = sqrt((vec.x - x) * (vec.x - x) + (vec.y - y) * (vec.y - y) + (vec.z - z) * (vec.z - z));
-			std::cout << "Distance value is " << result << std::endl;
 			return result;
 		}
 

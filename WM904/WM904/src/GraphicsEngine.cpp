@@ -1,7 +1,6 @@
 #include "GraphicsEngine.h"
 #include <iostream>
 
-GameObject testObj;
 SpriteSheet* monsterSheet1;
 /// <summary>
 /// Called when starting up the graphics engine. Default creates a window.
@@ -50,7 +49,6 @@ void GraphicsEngine::StartUp(DataStructures::List<GameObject*>& objects,int size
 	/*Create entities here to be drawn in update.
 	In future this would be stored in the actual main, then passed to the graphics engine to render sprites at the required positions*/
 	
-	testObj = GameObject(CustomMath::Vector3::Zero(), heroImage);
 
 }
 void GraphicsEngine::Update(float deltaTime) {
@@ -64,15 +62,10 @@ void GraphicsEngine::Update(float deltaTime) {
 		GamesEngineeringBase::Image* sprite = it->data->GetSprite();
 		CustomMath::Vector3 pos = it->data->Position();
 
-
 		if (!DrawImage(sprite, pos)) { //Draw the image, but GamesEngineeringBase::Image*
 			DrawImage(it->data->GetSpriteDef(),pos); //If the drawing returns false, then that means we need to draw a sprite definition instead.
 		}
 	}
-
-	DrawImage(testObj.GetSprite(), testObj.Position()); //Draw the test yellow png for movement reference.
-	
-
 	//Presents the canvas.
 	_mainCanvas->present();
 }
@@ -92,7 +85,10 @@ bool GraphicsEngine::DrawImage(unsigned int indexX, unsigned int indexY, SpriteS
 	unsigned int heightStart = height * indexY; //Start of the y value of the image we want to draw in the sprite sheet.
 
 	//Calculate draw position from world space to screen.
-	CustomMath::Vector3 screenPos = position - _mainCamera->Position() + _mainCamera->Offset();
+	CustomMath::Vector3 screenPos = ((position - _mainCamera->Position()) * _pixelPerUnit) + _mainCamera->Offset();
+
+	int xLoopIcrement = 0;
+	int yLoopIcrement = 0;
 
 	for (int x = widthStart; x < widthStart + width; x++) { //widthStart + width represents the max x value of the Sprite we want to draw.
 		for (int y = heightStart; y < heightStart + height; y++) { //heightStart + height represents the max y value of the Sprite we want to draw.
@@ -100,15 +96,18 @@ bool GraphicsEngine::DrawImage(unsigned int indexX, unsigned int indexY, SpriteS
 			const unsigned int pixelIndex = (y * spriteSheet->SheetData()->width + x) * spriteSheet->SheetData()->channels; //y * first so that it starts with rows and not columns.
 
 
-			//if (spriteSheet->SheetData()->channels == 3 || spriteSheet->SheetData()->data[pixelIndex + 3] != 0)
-			//{
-			//	//std::cout << "X is " << x << " and Y is " << y << std::endl;
-			//	_mainCanvas->draw(x, y, &spriteSheet->SheetData()->data[pixelIndex]);
-			//}
-			if (spriteSheet->SheetData()->channels == 4) {
-				_mainCanvas->draw(x + screenPos.x, y + screenPos.y, &spriteSheet->SheetData()->data[pixelIndex]);
+			if (spriteSheet->SheetData()->channels == 3 || spriteSheet->SheetData()->data[pixelIndex + 3] != 0)
+			{
+				//std::cout << "X is " << x << " and Y is " << y << std::endl;
+				_mainCanvas->draw(x, y, &spriteSheet->SheetData()->data[pixelIndex]);
 			}
+			if (spriteSheet->SheetData()->channels == 4) {
+				_mainCanvas->draw(xLoopIcrement + screenPos.x, yLoopIcrement + screenPos.y, &spriteSheet->SheetData()->data[pixelIndex]);
+			}
+			yLoopIcrement++;
 		}
+		xLoopIcrement++;
+		yLoopIcrement = 0;
 	}
 	return true;
 }
@@ -124,8 +123,7 @@ bool GraphicsEngine::DrawImage(SpriteDefinition* def, CustomMath::Vector3 positi
 	unsigned int heightStart = height * def->indexY(); //Start of the y value of the image we want to draw in the sprite sheet.
 
 	//Calculate draw position from world space to screen.
-	CustomMath::Vector3 screenPos = (position * _pixelPerUnit) - _mainCamera->Position() + _mainCamera->Offset();
-
+	CustomMath::Vector3 screenPos = ((position - _mainCamera->Position()) * _pixelPerUnit) + _mainCamera->Offset();
 	int xLoopIcrement = 0;
 	int yLoopIcrement = 0;
 
