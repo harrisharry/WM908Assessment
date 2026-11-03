@@ -16,6 +16,10 @@ public:
 	virtual bool CheckCollision(SphereCollider* other) = 0;
 	virtual bool CheckCollision(BoxCollider* other) = 0;
 
+	virtual void ResolveCollision(Collider* other) = 0;
+	virtual void ResolveCollision(SphereCollider* other) = 0;
+	virtual void ResolveCollision(BoxCollider* other) = 0;
+
 	//Getters and setters.
 	void Position(CustomMath::Vector3 pos) { _position = pos; }
 	CustomMath::Vector3 Position() { return _position; }
@@ -64,6 +68,19 @@ public:
 
 		return false;
 	}
+
+	virtual void ResolveCollision(Collider* other) override {
+		other->ResolveCollision(this);
+	}
+	virtual void ResolveCollision(SphereCollider* other) override {
+		
+		CustomMath::Vector3 collisionVector = _position - other->Position();
+		float distance = collisionVector.Magnitude();
+
+	}
+	virtual void ResolveCollision(BoxCollider* other) override {
+
+	}
 };
 
 class BoxCollider : public Collider { // 2D Axis alligned bounding box.
@@ -82,9 +99,6 @@ private:
 
 		max.x = xMax;
 		max.y = yMax;
-
-		std::cout << "Max vec is + " << max.To_String() << std::endl;
-
 		return max;
 
 	}
@@ -96,9 +110,6 @@ private:
 
 		min.x = xMin;
 		min.y = yMin;
-
-
-		std::cout << "Min vec is + " << min.To_String() << std::endl;
 			
 		return min;
 	}
@@ -134,7 +145,8 @@ public:
 		return other->CheckCollision(this);
 	}
 	virtual bool CheckCollision(BoxCollider* other) override {
-
+		other->RecalculatePoints();
+		this->RecalculatePoints();
 		//Check if the x axis are overlapping
 		//If the max x of box a is less than the min x of box b, they are seperated or if the min x of box a is greather than the max x of box b, then there is a seperation in the opposite direction.
 		if (_maxPoint.x <= other->_minPoint.x || _minPoint.x >= other->_maxPoint.x){
@@ -150,4 +162,13 @@ public:
 		return true;
 	}
 
+	virtual void ResolveCollision(Collider* other) override {
+		other->ResolveCollision(this);
+	}
+	virtual void ResolveCollision(SphereCollider* other) override {
+
+	}
+	virtual void ResolveCollision(BoxCollider* other) override {
+
+	}
 };

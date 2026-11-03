@@ -48,14 +48,16 @@ int main() {
 
     GameObject* anotherObject = new GameObject();
     anotherObject->Position(Vector3(2,0,0));
-    SphereCollider* collider1 = new SphereCollider(1,Vector3(2,0,0));
+    SphereCollider* collider1 = new SphereCollider(.5f,Vector3(2,0,0));
+    //BoxCollider* collider1 = new BoxCollider(0.5f, 0.5f, Vector3(.25f, 0, 0));
     anotherObject->SetCollider(collider1);
-    anotherObject->SetSprite(graphics.GetSpriteDef(Wizard));
+    anotherObject->SetSprite(graphics.GetSpriteDef(Default));
     gameObjects.Add(anotherObject);
 
     Hero* hero = new Hero; //Create the object.
     hero->Position(CustomMath::Vector3(0,0,0));
-    SphereCollider* heroCollider = new SphereCollider(1, Vector3::Zero());
+    SphereCollider* heroCollider = new SphereCollider(.5f, Vector3::Zero());
+    //BoxCollider* heroCollider = new BoxCollider(.5f,.5f, Vector3::Zero());
     hero->SetCollider(heroCollider);
     //Set the sprite of the object using the preloaded ones from the graphics engine.
     hero->SetSprite(graphics.GetSpriteDef(Wizard));
@@ -86,12 +88,11 @@ int main() {
         hero->SetInputVec(totalInput);
 
         for (auto it = gameObjects.Begin(); it != gameObjects.End(); it++) {
-            it->data->Update(0.0166);
+            it->data->Update(0.0166); //Update all game objects.
         }
         graphics.GetCamera()->Position(Vector2(hero->Position().x,hero->Position().y));
         physics.Update(0.0166);
         graphics.Update(0.0166);
-
 
     }
     

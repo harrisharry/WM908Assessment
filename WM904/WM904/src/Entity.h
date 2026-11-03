@@ -123,8 +123,9 @@ public:
 		_position = _position + (inputVec * deltaTime) * speed; //Calculate new position.
 		inputVec = CustomMath::Vector2::Zero(); //Reset input for the next frame.
 
-		if(!_collider)
+		if (_collider != nullptr) {
 			_collider->Position(_position);
+		}
 	}
 	void SetInputVec(CustomMath::Vector2 newInput) {
 		newInput.Normalise();

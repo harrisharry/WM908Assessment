@@ -72,7 +72,7 @@ namespace CustomMath
 
 		float Length() {
 
-			return sqrt(pow(x,2) + pow(y,2));
+			return sqrt((x * x) + (y * y));
 		}
 		std::string To_String() {
 			std::string xString = std::to_string(x);
@@ -138,12 +138,23 @@ namespace CustomMath
 			z = 0.0f;
 		}
 
+		//Distance between this vector and another.
 		float Distance(CustomMath::Vector3 vec) const {
 
 			float result = sqrt((vec.x - x) * (vec.x - x) + (vec.y - y) * (vec.y - y) + (vec.z - z) * (vec.z - z));
 			return result;
 		}
+		float Magnitude() const {
+			return sqrt((x * x) + (y * y) + (z * z));
+		}
+		void Normalise() {
+			float magnitude = Magnitude();
 
+			if (magnitude == 0) return; //Make sure we dont divide by 0.
+			x = x / magnitude;
+			y = y / magnitude;
+			z = z / magnitude;
+		}
 		std::string To_String() {
 			std::string xString = std::to_string(x);
 			std::string yString = std::to_string(y);
