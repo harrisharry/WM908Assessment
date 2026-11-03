@@ -19,27 +19,26 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera2D.h" />
-    <ClInclude Include="Collider.h" />
-    <ClInclude Include="FileLoader.h" />
-    <ClInclude Include="PhysicsEngine.h" />
-    <ClInclude Include="SpriteSheet.h" />
+    <ClInclude Include="src\Camera2D.h" />
+    <ClInclude Include="src\Collider.h" />
     <ClInclude Include="src\Colour.h" />
     <ClInclude Include="src\DStructures.h" />
     <ClInclude Include="src\Entity.h" />
     <ClInclude Include="src\GamesEngineeringBase.h" />
     <ClInclude Include="src\GraphicsEngine.h" />
     <ClInclude Include="src\Mathf.h" />
+    <ClInclude Include="src\PhysicsEngine.h" />
     <ClInclude Include="src\Shape.h" />
     <ClInclude Include="src\ShapeDrawer.h" />
+    <ClInclude Include="src\SpriteSheet.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Camera2D.cpp" />
-    <ClCompile Include="PhysicsEngine.cpp" />
-    <ClCompile Include="SpriteSheet.cpp" />
+    <ClCompile Include="src\Camera2D.cpp" />
     <ClCompile Include="src\GEBase.cpp" />
     <ClCompile Include="src\GraphicsEngine.cpp" />
     <ClCompile Include="src\Mathf.cpp" />
+    <ClCompile Include="src\PhysicsEngine.cpp" />
+    <ClCompile Include="src\SpriteSheet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="TestText.txt" />

@@ -1,3 +1,6 @@
+#pragma once
+#include "src/DStructures.h"
+
 class PhysicsEngine
 {
 private:

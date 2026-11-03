@@ -7,8 +7,11 @@
 #include <filesystem>
 #include "Entity.h"
 #include "FileLoader.h"
-
 #include "DStructures.h"
+
+
+#include "Collider.h"
+
 using namespace std;
 using namespace CustomMath;
 
@@ -22,7 +25,16 @@ int main() {
 
     GraphicsEngine graphics;
     graphics.StartUp(gameObjects);
+    
 
+    //BoxCollider collider1(1,1,Vector3::Zero());
+    //BoxCollider collider2(1, 1, Vector3(1.0f,0.0f,0.0f));
+
+    SphereCollider sphere1(1, Vector3::Zero());
+    SphereCollider sphere2(1, Vector3(2,0,0));
+    if (sphere1.CheckCollision(sphere2)) {
+        cout << "Colliding!\n";
+    }
 
 
     for (int i = 0; i < 11; i++) {
