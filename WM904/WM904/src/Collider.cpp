@@ -144,6 +144,7 @@ void BoxCollider::ResolveCollision(SphereCollider* other, GameObject* objToCheck
 
 	CustomMath::Vector3 newPos = objToCheck->Position() + dirVec * depth;
 
+	other->Position(newPos);
 	objToCheck->Position(newPos);
 
 }
