@@ -1,6 +1,5 @@
 #pragma once
 #include "Mathf.h"
-#include "Entity.h"
 
 class BoxCollider;
 class SphereCollider;
@@ -54,42 +53,13 @@ public:
 	CustomMath::Vector3 Position() { return _position;  }
 	float Radius() { return _radius; }
 	virtual bool CheckCollision(Collider* other) override;
-	virtual bool CheckCollision(SphereCollider* other) override {
-		
-		//Get distance between colliders
-		float distance = _position.Distance(other->Position());
-		
-		if (distance >= other->Radius() + _radius) {
-			return false; 
-		}
-		return true;
-	}
-	virtual bool CheckCollision(BoxCollider* other) override {
-
-		return false;
-	}
+	virtual bool CheckCollision(SphereCollider* other) override;
+	virtual bool CheckCollision(BoxCollider* other) override;
 
 
 	virtual void ResolveCollision(Collider* other, GameObject* objToCheck) override;
-	virtual void ResolveCollision(SphereCollider* other, GameObject* objToCheck) override {
-		
-		std::cout << "Resolving sphere sphere collision\n";
-		CustomMath::Vector3 collisionVector = _position - other->Position();
-		float distance = collisionVector.Magnitude(); //Distance between the two objects needs to be the same as the sum of their radius.
-		collisionVector.Normalise();
-		float radiusSum = other->Radius() + this->Radius();
-		float depth = radiusSum - distance; //The amount that each sphere is inside eachother.
-
-		CustomMath::Vector3 newPos = other->Position() - collisionVector * depth;
-		std::cout << "New pos is " + newPos.To_String() << std::endl;
-		objToCheck->Position(newPos);
-
-		
-
-	}
-	virtual void ResolveCollision(BoxCollider* other, GameObject* objToCheck) override {
-
-	}
+	virtual void ResolveCollision(SphereCollider* other, GameObject* objToCheck) override;
+	virtual void ResolveCollision(BoxCollider* other, GameObject* objToCheck) override;
 };
 
 class BoxCollider : public Collider { // 2D Axis alligned bounding box.
@@ -147,37 +117,11 @@ public:
 		_maxPoint = CalculateMax();
 		_minPoint = CalculateMin();
 	}
-	virtual bool CheckCollision(Collider* other) override {
-		return other->CheckCollision(this);
-	}
-	virtual bool CheckCollision(SphereCollider* other) override {
-		return other->CheckCollision(this);
-	}
-	virtual bool CheckCollision(BoxCollider* other) override {
-		other->RecalculatePoints();
-		this->RecalculatePoints();
-		//Check if the x axis are overlapping
-		//If the max x of box a is less than the min x of box b, they are seperated or if the min x of box a is greather than the max x of box b, then there is a seperation in the opposite direction.
-		if (_maxPoint.x <= other->_minPoint.x || _minPoint.x >= other->_maxPoint.x){
-			return false; //There is a seperation so they arent colliding.
-		}
-		//Check if now there is a seperation in the y direction.
-		if (_maxPoint.y <= other->_minPoint.y || _minPoint.y >= other->_maxPoint.y) {
-			//There is seperation in the y axis return false. They are not colliding.
-			return false;
-		}
+	virtual bool CheckCollision(Collider* other) override;
+	virtual bool CheckCollision(SphereCollider* other) override;
+	virtual bool CheckCollision(BoxCollider* other) override;
 
-		//If there is neither a seperation in the x axis or the y axis, then they must be colliding. 
-		return true;
-	}
-
-	virtual void ResolveCollision(Collider* other, GameObject* objToCheck) override {
-		other->ResolveCollision(this, objToCheck);
-	}
-	virtual void ResolveCollision(SphereCollider* other, GameObject* objToCheck) override {
-
-	}
-	virtual void ResolveCollision(BoxCollider* other, GameObject* objToCheck) override {
-
-	}
+	virtual void ResolveCollision(Collider* other, GameObject* objToCheck) override;
+	virtual void ResolveCollision(SphereCollider* other, GameObject* objToCheck) override;
+	virtual void ResolveCollision(BoxCollider* other, GameObject* objToCheck) override;
 };
