@@ -18,7 +18,7 @@ bool SphereCollider::CheckCollision(SphereCollider* other)
 }
 bool SphereCollider::CheckCollision(BoxCollider* other)
 {
-	return false;
+	return other->CheckCollision(this);
 }
 
 void SphereCollider::ResolveCollision(Collider* other,GameObject* objToCheck) {
@@ -40,7 +40,7 @@ void SphereCollider::ResolveCollision(SphereCollider* other, GameObject* objToCh
 
 }
 void SphereCollider::ResolveCollision(BoxCollider* other, GameObject* objToCheck) {
-
+	return other->ResolveCollision(this, objToCheck);
 }
 
 bool BoxCollider::CheckCollision(Collider* other) {
@@ -48,7 +48,39 @@ bool BoxCollider::CheckCollision(Collider* other) {
 	return other->CheckCollision(this);
 }
 bool BoxCollider::CheckCollision(SphereCollider* other) {
-	return other->CheckCollision(this);
+	
+	CustomMath::Vector3 closestPoint; //This is the closest on the AABB to the sphere center.
+
+	if (other->Position().x > _maxPoint.x) {//If the x pos of sphere is greater than max x, set x pos to be max x.
+		closestPoint.x = _maxPoint.x;
+	}
+	else if (other->Position().x < _minPoint.x) { //If the x pos of sphere is less than the min x, set the x pos to be min x.
+		closestPoint.x = _minPoint.x;
+	}
+	else //If neither of the above is true, then wherever the x pos is, it is the right value.
+	{
+		closestPoint.x = other->Position().x;
+	}
+	//Same for y.
+	if (other->Position().y > _maxPoint.y) {
+		closestPoint.y = _maxPoint.y;
+	}
+	else if (other->Position().y < _minPoint.y) {
+		closestPoint.y = _minPoint.y;
+	}
+	else
+	{
+		closestPoint.y = other->Position().y;
+	}
+
+	//Now we have the closest point on the AABB to the Sphere. We can calculate if they are colliding using distances.
+
+	float disFromSphere =  (closestPoint - other->Position()).Magnitude();
+
+	if (disFromSphere < other->Radius()) {
+		return true;
+	}
+	return false;
 }
 bool BoxCollider::CheckCollision(BoxCollider* other) {
 	other->RecalculatePoints();

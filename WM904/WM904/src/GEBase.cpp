@@ -48,8 +48,8 @@ int main() {
 
     GameObject* anotherObject = new GameObject();
     anotherObject->Position(Vector3(2,0,0));
-    SphereCollider* collider1 = new SphereCollider(.5f,Vector3(2,0,0));
-    //BoxCollider* collider1 = new BoxCollider(0.5f, 0.5f, Vector3(.25f, 0, 0));
+    //SphereCollider* collider1 = new SphereCollider(.5f,Vector3(2,0,0));
+    BoxCollider* collider1 = new BoxCollider(0.5f, 0.5f, Vector3(2, 0, 0));
     anotherObject->SetCollider(collider1);
     anotherObject->SetSprite(graphics.GetSpriteDef(Default));
     gameObjects.Add(anotherObject);
