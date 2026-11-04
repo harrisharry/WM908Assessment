@@ -32,7 +32,7 @@ void SphereCollider::ResolveCollision(SphereCollider* other, GameObject* objToCh
 	float radiusSum = other->Radius() + this->Radius();
 	float depth = radiusSum - distance; //The amount that each sphere is inside eachother.
 
-	CustomMath::Vector3 newPos = other->Position() - collisionVector * depth;
+	CustomMath::Vector3 newPos = this->Position() + collisionVector * depth;
 	std::cout << "New pos is " + newPos.To_String() << std::endl;
 	objToCheck->Position(newPos);
 
@@ -47,10 +47,10 @@ bool BoxCollider::CheckCollision(Collider* other) {
 
 	return other->CheckCollision(this);
 }
- bool BoxCollider::CheckCollision(SphereCollider* other) {
+bool BoxCollider::CheckCollision(SphereCollider* other) {
 	return other->CheckCollision(this);
 }
- bool BoxCollider::CheckCollision(BoxCollider* other) {
+bool BoxCollider::CheckCollision(BoxCollider* other) {
 	other->RecalculatePoints();
 	this->RecalculatePoints();
 	//Check if the x axis are overlapping
