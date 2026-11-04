@@ -67,7 +67,7 @@ protected:
 public:
 
 	GameObject() : Sprite(){
-		
+		_collider = new SphereCollider(.5f, CustomMath::Vector3::Zero());
 	}
 
 	GameObject(CustomMath::Vector3 position,GamesEngineeringBase::Image* spriteImage) : Sprite(position,spriteImage) {

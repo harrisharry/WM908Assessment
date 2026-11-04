@@ -56,9 +56,6 @@ int main() {
 
     Hero* hero = new Hero; //Create the object.
     hero->Position(CustomMath::Vector3(0,0,0));
-    SphereCollider* heroCollider = new SphereCollider(.5f, Vector3::Zero());
-    //BoxCollider* heroCollider = new BoxCollider(.5f,.5f, Vector3::Zero());
-    hero->SetCollider(heroCollider);
     //Set the sprite of the object using the preloaded ones from the graphics engine.
     hero->SetSprite(graphics.GetSpriteDef(Wizard));
     gameObjects.Add(hero); //Add it to the gameobjects list.
