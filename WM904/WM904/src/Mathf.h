@@ -132,6 +132,9 @@ namespace CustomMath
 			y = vec1.y;
 			z = vec1.z;
 		}
+		bool operator==(const Vector3 vec1) {
+			return x == vec1.x && y == vec1.y && z == vec1.z;
+		}
 		void operator= (const Vector2 vec1) {
 			x = vec1.x;
 			y = vec1.y;

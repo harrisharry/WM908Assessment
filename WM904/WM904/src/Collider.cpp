@@ -1,5 +1,7 @@
+#pragma once
 #include "Collider.h"
 #include "Entity.h"
+#include <iostream>
 
 bool SphereCollider::CheckCollision(Collider* other)
 {
@@ -49,6 +51,7 @@ bool BoxCollider::CheckCollision(Collider* other) {
 }
 bool BoxCollider::CheckCollision(SphereCollider* other) {
 	
+	RecalculatePoints();
 	CustomMath::Vector3 closestPoint; //This is the closest on the AABB to the sphere center.
 
 	if (other->Position().x > _maxPoint.x) {//If the x pos of sphere is greater than max x, set x pos to be max x.
@@ -77,10 +80,10 @@ bool BoxCollider::CheckCollision(SphereCollider* other) {
 
 	float disFromSphere =  (closestPoint - other->Position()).Magnitude();
 
-	if (disFromSphere < other->Radius()) {
-		return true;
+	if (disFromSphere >= other->Radius()) {
+		return false;
 	}
-	return false;
+	return true;
 }
 bool BoxCollider::CheckCollision(BoxCollider* other) {
 	other->RecalculatePoints();
@@ -104,6 +107,44 @@ void BoxCollider::ResolveCollision(Collider* other, GameObject* objToCheck) {
 	other->ResolveCollision(this, objToCheck);
 }
 void BoxCollider::ResolveCollision(SphereCollider* other, GameObject* objToCheck) {
+
+	RecalculatePoints();
+	CustomMath::Vector3 closestPoint; //This is the closest on the AABB to the sphere center.
+
+	if (other->Position().x > _maxPoint.x) {//If the x pos of sphere is greater than max x, set x pos to be max x.
+		closestPoint.x = _maxPoint.x;
+	}
+	else if (other->Position().x < _minPoint.x) { //If the x pos of sphere is less than the min x, set the x pos to be min x.
+		closestPoint.x = _minPoint.x;
+	}
+	else //If neither of the above is true, then wherever the x pos is, it is the right value.
+	{
+		closestPoint.x = other->Position().x;
+	}
+	//Same for y.
+	if (other->Position().y > _maxPoint.y) {
+		closestPoint.y = _maxPoint.y;
+	}
+	else if (other->Position().y < _minPoint.y) {
+		closestPoint.y = _minPoint.y;
+	}
+	else
+	{
+		closestPoint.y = other->Position().y;
+	}
+
+	CustomMath::Vector3 dirVec = closestPoint - other->Position();
+	float distance = dirVec.Magnitude();
+	float depth = other->Radius() - distance;
+
+	std::cout << "Distance is " << distance << std::endl;
+	std::cout << "Depth is " << depth << std::endl;
+
+	dirVec.Normalise();
+
+	CustomMath::Vector3 newPos = objToCheck->Position() + dirVec * depth;
+
+	objToCheck->Position(newPos);
 
 }
 void BoxCollider::ResolveCollision(BoxCollider* other, GameObject* objToCheck) {
