@@ -18,10 +18,8 @@ void PhysicsEngine::Update(float deltaTime) {
 			if (toCheck == nullptr) continue;
 			if (current == toCheck) continue;
 			if (current->CheckCollision(toCheck)) {
-				//std::cout << "Detected a collision.\n";
-
-				current->ResolveCollision(toCheck);
-				//Resolve collision
+				GameObject* object = it2->data;
+				current->ResolveCollision(toCheck,object);
 			}
 		}
 

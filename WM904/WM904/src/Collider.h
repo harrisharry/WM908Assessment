@@ -1,8 +1,10 @@
 #pragma once
 #include "Mathf.h"
+#include "Entity.h"
 
 class BoxCollider;
 class SphereCollider;
+class GameObject;
 
 //Base collider class.
 class Collider
@@ -16,9 +18,9 @@ public:
 	virtual bool CheckCollision(SphereCollider* other) = 0;
 	virtual bool CheckCollision(BoxCollider* other) = 0;
 
-	virtual void ResolveCollision(Collider* other) = 0;
-	virtual void ResolveCollision(SphereCollider* other) = 0;
-	virtual void ResolveCollision(BoxCollider* other) = 0;
+	virtual void ResolveCollision(Collider* other, GameObject* objToCheck) = 0;
+	virtual void ResolveCollision(SphereCollider* other, GameObject* objToCheck) = 0;
+	virtual void ResolveCollision(BoxCollider* other, GameObject* objToCheck) = 0;
 
 	//Getters and setters.
 	void Position(CustomMath::Vector3 pos) { _position = pos; }
@@ -51,9 +53,7 @@ public:
 	}
 	CustomMath::Vector3 Position() { return _position;  }
 	float Radius() { return _radius; }
-	virtual bool CheckCollision(Collider* other) override {
-		return other->CheckCollision(this);
-	}
+	virtual bool CheckCollision(Collider* other) override;
 	virtual bool CheckCollision(SphereCollider* other) override {
 		
 		//Get distance between colliders
@@ -69,16 +69,25 @@ public:
 		return false;
 	}
 
-	virtual void ResolveCollision(Collider* other) override {
-		other->ResolveCollision(this);
-	}
-	virtual void ResolveCollision(SphereCollider* other) override {
+
+	virtual void ResolveCollision(Collider* other, GameObject* objToCheck) override;
+	virtual void ResolveCollision(SphereCollider* other, GameObject* objToCheck) override {
 		
+		std::cout << "Resolving sphere sphere collision\n";
 		CustomMath::Vector3 collisionVector = _position - other->Position();
-		float distance = collisionVector.Magnitude();
+		float distance = collisionVector.Magnitude(); //Distance between the two objects needs to be the same as the sum of their radius.
+		collisionVector.Normalise();
+		float radiusSum = other->Radius() + this->Radius();
+		float depth = radiusSum - distance; //The amount that each sphere is inside eachother.
+
+		CustomMath::Vector3 newPos = other->Position() - collisionVector * depth;
+		std::cout << "New pos is " + newPos.To_String() << std::endl;
+		objToCheck->Position(newPos);
+
+		
 
 	}
-	virtual void ResolveCollision(BoxCollider* other) override {
+	virtual void ResolveCollision(BoxCollider* other, GameObject* objToCheck) override {
 
 	}
 };
@@ -162,13 +171,13 @@ public:
 		return true;
 	}
 
-	virtual void ResolveCollision(Collider* other) override {
-		other->ResolveCollision(this);
+	virtual void ResolveCollision(Collider* other, GameObject* objToCheck) override {
+		other->ResolveCollision(this, objToCheck);
 	}
-	virtual void ResolveCollision(SphereCollider* other) override {
+	virtual void ResolveCollision(SphereCollider* other, GameObject* objToCheck) override {
 
 	}
-	virtual void ResolveCollision(BoxCollider* other) override {
+	virtual void ResolveCollision(BoxCollider* other, GameObject* objToCheck) override {
 
 	}
 };
