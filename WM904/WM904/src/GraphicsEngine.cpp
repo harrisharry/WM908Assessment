@@ -62,8 +62,11 @@ void GraphicsEngine::Update(float deltaTime) {
 		GamesEngineeringBase::Image* sprite = it->data->GetSprite();
 		CustomMath::Vector3 pos = it->data->Position();
 
-		if (!DrawImage(sprite, pos)) { //Draw the image, but GamesEngineeringBase::Image*
-			DrawImage(it->data->GetSpriteDef(),pos); //If the drawing returns false, then that means we need to draw a sprite definition instead.
+		if (sprite != nullptr) {
+			DrawImage(sprite, pos);
+		}
+		else {
+			DrawImage(it->data->GetSpriteDef(),pos);
 		}
 	}
 	//Presents the canvas.
@@ -132,11 +135,16 @@ bool GraphicsEngine::DrawImage(SpriteDefinition* def, CustomMath::Vector3 positi
 
 			const unsigned int pixelIndex = (y * def->GetSpriteSheet()->SheetData()->width + x) * def->GetSpriteSheet()->SheetData()->channels; //y * first so that it starts with rows and not columns.
 
+			CustomMath::Vector2 pixelPosOnScreen;
+			pixelPosOnScreen.x = xLoopIcrement + screenPos.x - (width * 0.5f);
+			pixelPosOnScreen.y = yLoopIcrement + screenPos.y - (height * 0.5f);
 
+			if (_mainCamera->OutsideCam(pixelPosOnScreen, true)) continue; //Check if a pixel is outside the bounds of the screen.
+			
 			if (def->GetSpriteSheet()->SheetData()->channels == 3 || def->GetSpriteSheet()->SheetData()->data[pixelIndex + 3] != 0)
 			{
 				//std::cout << "X is " << x << " and Y is " << y << std::endl;
-				_mainCanvas->draw(xLoopIcrement + screenPos.x - (width * 0.5f), yLoopIcrement + screenPos.y - (height * 0.5f), &def->GetSpriteSheet()->SheetData()->data[pixelIndex]);
+				_mainCanvas->draw(pixelPosOnScreen.x, pixelPosOnScreen.y, &def->GetSpriteSheet()->SheetData()->data[pixelIndex]);
 			}
 			//else if (def->GetSpriteSheet()->SheetData()->channels == 4) {
 			//	_mainCanvas->draw(x + screenPos.x - (width * 0.5f), y + screenPos.y - (height * 0.5f), &def->GetSpriteSheet()->SheetData()->data[pixelIndex]);

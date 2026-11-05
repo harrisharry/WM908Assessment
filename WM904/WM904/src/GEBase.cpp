@@ -26,25 +26,17 @@ int main() {
 
     PhysicsEngine physics;
     physics.StartUp(gameObjects);
-    
-
-    //BoxCollider collider1(1,1,Vector3::Zero());
-    //BoxCollider collider2(1, 1, Vector3(1.0f,0.0f,0.0f));
-
-    //SphereCollider sphere1(1, Vector3::Zero());
-    //SphereCollider sphere2(1, Vector3(2,0,0));
-    //sphere1.CheckCollision(&sphere2);
 
 
 
-    //for (int i = 0; i < 11; i++) {
-    //    for (int j = 0; j < 2; j++) {
-    //        GameObject* tile = new GameObject();
-    //        tile->SetSprite(graphics.GetSpriteDef(5));
-    //        tile->Position(CustomMath::Vector3(i, j, 0));
-    //        gameObjects.Add(tile);
-    //    }
-    //}
+    for (int i = 0; i < 11; i++) {
+        for (int j = 0; j < 2; j++) {
+            GameObject* tile = new GameObject();
+            tile->SetSprite(graphics.GetSpriteDef(5));
+            tile->Position(CustomMath::Vector3(i, j, 0));
+            gameObjects.Add(tile);
+        }
+    }
 
     GameObject* anotherObject = new GameObject();
     anotherObject->Position(Vector3(2,0,0));

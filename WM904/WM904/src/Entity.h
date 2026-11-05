@@ -67,7 +67,6 @@ protected:
 public:
 
 	GameObject() : Sprite(){
-		_collider = new SphereCollider(.5f, CustomMath::Vector3::Zero());
 	}
 
 	GameObject(CustomMath::Vector3 position,GamesEngineeringBase::Image* spriteImage) : Sprite(position,spriteImage) {
@@ -98,6 +97,7 @@ protected:
 public:
 	Hero() : GameObject() {
 		_health = _maxHealth;
+		_collider = new SphereCollider(.5f, CustomMath::Vector3::Zero());
 	}
 	void Damage(int damage) {
 		if (damage < 0) { damage *= -1; } //Absolute value.
