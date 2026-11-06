@@ -181,11 +181,27 @@ public:
 		if (dynamic_cast<Enemy*>(obj))
 		{
 			Damage(10);
-			std::cout << "Enemy has touched the player\n";
 		}
+	}
+	virtual void Attack(CustomMath::Vector3 dir) {
+		std::cout << "Attacking\n";
 	}
 	void SetInputVec(CustomMath::Vector2 newInput) {
 		newInput.Normalise();
 		inputVec = newInput;
+	}
+
+};
+class WizardHero : public Hero
+{
+protected:
+	
+public:
+	WizardHero() :  Hero() {
+		
+	}
+	virtual void Attack(CustomMath::Vector3 dir) override
+	{
+		std::cout << "The wizard is attacking\n";
 	}
 };

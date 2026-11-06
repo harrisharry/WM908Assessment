@@ -31,10 +31,10 @@ int main() {
 
 
     TileManager tileManager(graphics.GetTileDef());
-    //tileManager.LoadMap("./Resources/smallMap.txt",gameObjects);
+    tileManager.LoadMap("./Resources/smallMap.txt",gameObjects);
     
 
-    Hero* hero = new Hero; //Create the object.
+    Hero* hero = new WizardHero; //Create the object.
     hero->Position(CustomMath::Vector3(1,1,0));
     //Set the sprite of the object using the preloaded ones from the graphics engine.
     hero->SetSprite(graphics.GetSpriteDef(Wizard));
@@ -68,6 +68,14 @@ int main() {
             totalInput += CustomMath::Vector2(-1, 0);
         if (graphics.GetWindow()->keyPressed('D'))
             totalInput += CustomMath::Vector2(1, 0);
+        if (graphics.GetWindow()->mouseButtonPressed(MouseLeft)) {
+            std::cout << "Left mouse clicked.\n";
+            int x = graphics.GetWindow()->getMouseX();
+            int y = graphics.GetWindow()->getMouseY();
+
+            CustomMath::Vector2 dir = CustomMath::Vector2(x,y) - CustomMath::Vector2(hero->Position().x,hero->Position().y);
+            hero->Attack(dir);
+        }
 
         hero->SetInputVec(totalInput);
 
