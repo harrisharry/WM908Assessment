@@ -86,6 +86,14 @@ public:
 
 };
 
+class WallTile : public GameObject
+{
+public:
+	WallTile(CustomMath::Vector3 position) {
+		_collider = new BoxCollider(0.5f,0.5f,position);
+		_collider->Move(false);
+	}
+};
 class Hero : public GameObject //Base hero class, implements health speed and movement but can be overwritten by other classes.
 {
 protected:

@@ -1,7 +1,7 @@
 #include "GraphicsEngine.h"
 #include <iostream>
 
-SpriteSheet* monsterSheet1;
+SpriteSheet* characterSheet;
 /// <summary>
 /// Called when starting up the graphics engine. Default creates a window.
 /// </summary>
@@ -30,19 +30,22 @@ void GraphicsEngine::StartUp(DataStructures::List<GameObject*>& objects,int size
 	monstersSheet->load("./Resources/monsters.png");
 	//_loadedSprites[5] = monstersSheet;
 
-	monsterSheet1 = new SpriteSheet("./Resources/monsters.png");
+	characterSheet = new SpriteSheet("./Resources/monsters.png");
 
 	//Define sprite definitions for easy use in the sprite sheet.
-	SpriteDefinition* wizard = new SpriteDefinition(1,0,monsterSheet1);
+	SpriteDefinition* wizard = new SpriteDefinition(1,0,characterSheet);
 	spriteDefs[0] = wizard;
 
-	SpriteDefinition* firstSprite = new SpriteDefinition(0,0,monsterSheet1);
-	spriteDefs[1] = firstSprite;
+	SpriteDefinition* skeleton_sword = new SpriteDefinition(0, 4, characterSheet);
+	spriteDefs[1] = skeleton_sword;
 
 	SpriteSheet* tileSheet = new SpriteSheet("./Resources/tiles.png");
 
-	SpriteDefinition* backgroundTile = new SpriteDefinition(0,0,tileSheet);
-	spriteDefs[5] = backgroundTile;
+	SpriteDefinition* backgroundTile = new SpriteDefinition(0,13,tileSheet);
+	tileSpriteDefs[(int)Background] = backgroundTile;
+
+	SpriteDefinition* wallTile = new SpriteDefinition(0, 2, tileSheet);
+	tileSpriteDefs[(int)Wall] = wallTile;
 
 
 

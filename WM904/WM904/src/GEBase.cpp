@@ -9,6 +9,7 @@
 #include "FileLoader.h"
 #include "DStructures.h"
 #include "PhysicsEngine.h"
+#include "TileManager.h"
 
 using namespace std;
 using namespace CustomMath;
@@ -29,25 +30,20 @@ int main() {
 
 
 
-    for (int i = 0; i < 11; i++) {
-        for (int j = 0; j < 2; j++) {
-            GameObject* tile = new GameObject();
-            tile->SetSprite(graphics.GetSpriteDef(5));
-            tile->Position(CustomMath::Vector3(i, j, 0));
-            gameObjects.Add(tile);
-        }
-    }
+    TileManager tileManager(graphics.GetTileDef());
+    tileManager.LoadMap("./Resources/smallMap.txt",gameObjects);
+    
 
     GameObject* anotherObject = new GameObject();
     anotherObject->Position(Vector3(2,0,0));
     //SphereCollider* collider1 = new SphereCollider(.5f,Vector3(2,0,0));
     BoxCollider* collider1 = new BoxCollider(0.5f, 0.5f, Vector3(2, 0, 0));
     anotherObject->SetCollider(collider1);
-    anotherObject->SetSprite(graphics.GetSpriteDef(Default));
+    anotherObject->SetSprite(graphics.GetSpriteDef(Skeleton_Sword));
     gameObjects.Add(anotherObject);
 
     Hero* hero = new Hero; //Create the object.
-    hero->Position(CustomMath::Vector3(0,0,0));
+    hero->Position(CustomMath::Vector3(1,1,0));
     //Set the sprite of the object using the preloaded ones from the graphics engine.
     hero->SetSprite(graphics.GetSpriteDef(Wizard));
     gameObjects.Add(hero); //Add it to the gameobjects list.

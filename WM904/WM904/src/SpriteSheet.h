@@ -1,6 +1,18 @@
 #pragma once
 #include "GamesEngineeringBase.h"
 
+static enum Sprites
+{
+	Wizard,
+	Skeleton_Sword,
+
+	Default = 5
+};
+static enum Tiles {
+	Background,
+	Wall
+};
+
 class SpriteSheet {
 private:
 	GamesEngineeringBase::Image* _spriteSheetImage;

@@ -130,14 +130,14 @@ void BoxCollider::ResolveCollision(SphereCollider* other, GameObject* objToCheck
 	{
 		closestPoint.y = other->Position().y;
 	}
-
+	if (objToCheck->Collider()->Move() == false) return;
 	CustomMath::Vector3 dirVec = closestPoint - other->Position();
 	float distance = dirVec.Magnitude();
 	float depth = other->Radius() - distance;
 
 	dirVec.Normalise();
 
-	CustomMath::Vector3 newPos = objToCheck->Position() + dirVec * depth;
+	CustomMath::Vector3 newPos = objToCheck->Position() - dirVec * depth;
 
 	other->Position(newPos);
 	objToCheck->Position(newPos);

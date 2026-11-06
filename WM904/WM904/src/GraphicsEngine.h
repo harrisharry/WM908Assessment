@@ -10,11 +10,7 @@
 
 using namespace GamesEngineeringBase;
 
-enum Sprites
-{
-	Wizard,
-	Default,
-};
+
 
 
 //Responsible for creating the start of the game, and any other graphical requirements.
@@ -26,6 +22,7 @@ private:
 
 	DataStructures::List<GameObject*>* gameObjects;
 	SpriteDefinition* spriteDefs[5];
+	SpriteDefinition* tileSpriteDefs[5];
 	GamesEngineeringBase::Image* _loadedSprites[5];
 	Colour::Colour defaultColour = Colour::Colour(128,0,128);
 	ShapeDrawer2D* _shapeManager;
@@ -47,6 +44,10 @@ public:
 
 	SpriteDefinition* GetSpriteDef(Sprites sprite) { return spriteDefs[(int)sprite]; }
 	SpriteDefinition* GetSpriteDef(int index) { return spriteDefs[index]; }
+	SpriteDefinition* GetTileDef(Tiles tile) { return tileSpriteDefs[(int)tile]; }
+	SpriteDefinition* GetTileDef(int index) { return tileSpriteDefs[index]; }
+	SpriteDefinition** GetTileDef() { return tileSpriteDefs; }
+
 	Camera2D* GetCamera() { return _mainCamera; }
 	//void DrawSprite(Here will be a Sprite class.);// Function to draw a given sprite. Will be usefull when implementing game objects etc.
 };

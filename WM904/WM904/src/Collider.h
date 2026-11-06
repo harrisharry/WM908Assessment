@@ -10,7 +10,7 @@ class Collider
 {
 protected:
 	CustomMath::Vector3 _position = CustomMath::Vector3::Zero();
-	bool moves = false;
+	bool moves = true;
 
 public:
 	virtual bool CheckCollision(Collider* other) = 0;
