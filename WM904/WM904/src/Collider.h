@@ -21,6 +21,7 @@ public:
 	virtual void ResolveCollision(SphereCollider* other, GameObject* objToCheck) = 0;
 	virtual void ResolveCollision(BoxCollider* other, GameObject* objToCheck) = 0;
 
+
 	//Getters and setters.
 	void Position(CustomMath::Vector3 pos) { _position = pos; }
 	CustomMath::Vector3 Position() { return _position; }

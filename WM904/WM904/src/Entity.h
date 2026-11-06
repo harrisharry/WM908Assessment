@@ -79,9 +79,13 @@ public:
 			_collider->Position(_position);
 	}
 
+	virtual void OnCollisionEnter(GameObject* obj) {}
+
 	void SetCollider(Collider* collider) {
 		_collider = collider;
 	}
+	CustomMath::Vector3 Position() { return _position; }
+	void Position(CustomMath::Vector3 pos) { _position = pos; }
 	Collider* Collider() { return _collider; }
 
 };
@@ -90,31 +94,69 @@ class WallTile : public GameObject
 {
 public:
 	WallTile(CustomMath::Vector3 position) {
+		_position = position;
 		_collider = new BoxCollider(0.5f,0.5f,position);
 		_collider->Move(false);
 	}
 };
-class Hero : public GameObject //Base hero class, implements health speed and movement but can be overwritten by other classes.
+class Character : public GameObject
 {
 protected:
 	int _maxHealth = 100;
-	float _health;
-	float speed = .05f;
-	CustomMath::Vector2 inputVec = CustomMath::Vector2::Zero();
+	float _health = 0;
+	float speed = .1f;
 
 public:
-	Hero() : GameObject() {
+	Character() {
 		_health = _maxHealth;
-		_collider = new SphereCollider(.5f, CustomMath::Vector3::Zero());
 	}
 	void Damage(int damage) {
 		if (damage < 0) { damage *= -1; } //Absolute value.
 		_health -= damage;
-		
+
 		//Need to check if dead after damage is taken, and handle death.
 	}
-	bool CheckDead(){
+	virtual void OnCollisionEnter(GameObject* obj) override {
+
+
+	}
+	bool CheckDead() {
 		return _health < 0;
+	}
+};
+class Hero;
+class Enemy : public Character
+{
+private:
+	Hero* heroToFollow;
+	float detectionRange = 3.0f;
+public:
+	//Enemy() {
+
+	//}
+	Enemy(Hero* hero) {
+		heroToFollow = hero;
+		speed = 0.05f;
+	}
+
+	virtual void Update(float deltaTime) override {
+		FollowPlayer(deltaTime);
+		if (_collider != nullptr) {
+			_collider->Position(_position);
+		}
+	}
+
+	void FollowPlayer(float deltaTime);
+};
+class Hero : public Character //Base hero class, implements health speed and movement but can be overwritten by other classes.
+{
+protected:
+	CustomMath::Vector2 inputVec = CustomMath::Vector2::Zero();
+
+public:
+	Hero() : Character() {
+		_health = _maxHealth;
+		_collider = new SphereCollider(.5f, CustomMath::Vector3::Zero());
 	}
 	virtual void Update(float deltaTime) override { 
 		
@@ -123,7 +165,7 @@ public:
 		//Check if dead at the start of the frame, if so handle the death.
 		if (CheckDead()) {
 			//Handle death.
-			std::cout << "Hero has died, Handle death here.\n";
+			//std::cout << "Hero has died, Handle death here.\n";
 		}
 
 		//Deal with movement.
@@ -133,6 +175,13 @@ public:
 
 		if (_collider != nullptr) {
 			_collider->Position(_position);
+		}
+	}
+	virtual void OnCollisionEnter(GameObject* obj) {
+		if (dynamic_cast<Enemy*>(obj))
+		{
+			Damage(10);
+			std::cout << "Enemy has touched the player\n";
 		}
 	}
 	void SetInputVec(CustomMath::Vector2 newInput) {

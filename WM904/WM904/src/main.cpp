@@ -31,16 +31,8 @@ int main() {
 
 
     TileManager tileManager(graphics.GetTileDef());
-    tileManager.LoadMap("./Resources/smallMap.txt",gameObjects);
+    //tileManager.LoadMap("./Resources/smallMap.txt",gameObjects);
     
-
-    GameObject* anotherObject = new GameObject();
-    anotherObject->Position(Vector3(2,0,0));
-    //SphereCollider* collider1 = new SphereCollider(.5f,Vector3(2,0,0));
-    BoxCollider* collider1 = new BoxCollider(0.5f, 0.5f, Vector3(2, 0, 0));
-    anotherObject->SetCollider(collider1);
-    anotherObject->SetSprite(graphics.GetSpriteDef(Skeleton_Sword));
-    gameObjects.Add(anotherObject);
 
     Hero* hero = new Hero; //Create the object.
     hero->Position(CustomMath::Vector3(1,1,0));
@@ -48,7 +40,14 @@ int main() {
     hero->SetSprite(graphics.GetSpriteDef(Wizard));
     gameObjects.Add(hero); //Add it to the gameobjects list.
 
-
+    Enemy* anotherObject = new Enemy(hero);
+    anotherObject->Position(Vector3(3, 1, 0));
+    SphereCollider* collider1 = new SphereCollider(.5f, Vector3(2, 0, 0));
+    collider1->Move(true);
+    anotherObject->SetCollider(collider1);
+    anotherObject->SetSprite(graphics.GetSpriteDef(Skeleton_Sword));
+    gameObjects.Add(anotherObject);
+ 
 
     // Create a canvas window with dimensions 1024x768 and title “Tiles"
     bool running = true; // Variable to control the main loop's running state.

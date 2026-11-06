@@ -18,7 +18,10 @@ void PhysicsEngine::Update(float deltaTime) {
 			if (toCheck == nullptr) continue;
 			if (current == toCheck) continue;
 			if (current->CheckCollision(toCheck)) {
+				
 				current->ResolveCollision(toCheck, it2->data);
+				it2->data->OnCollisionEnter(it->data);
+				it->data->OnCollisionEnter(it2->data);
 			}
 		}
 
