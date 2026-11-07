@@ -32,7 +32,7 @@ int main() {
 
     static ObjectFactory* factory = new ObjectFactory(&gameObjects);
     TileManager tileManager(graphics.GetTileDef());
-    //tileManager.LoadMap("./Resources/smallMap.txt",gameObjects);
+    tileManager.LoadMap("./Resources/smallMap.txt",gameObjects);
     
 
     Hero* hero = new WizardHero; //Create the object.

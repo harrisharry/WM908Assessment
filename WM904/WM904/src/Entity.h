@@ -63,6 +63,7 @@ public:
 class GameObject : public Sprite
 {
 protected:
+	bool shouldDestroy = false;
 	Collider* _collider = nullptr;
 public:
 
@@ -87,6 +88,8 @@ public:
 	CustomMath::Vector3 Position() { return _position; }
 	void Position(CustomMath::Vector3 pos) { _position = pos; }
 	Collider* Collider() { return _collider; }
+	void ShouldDestroy(bool destroy) { shouldDestroy = destroy; }
+	bool ShouldDestroy() { return shouldDestroy; }
 
 };
 
@@ -209,12 +212,15 @@ public:
 	void Update(float deltaTime) override {
 
 		ProgressProjectile(deltaTime);
+		_collider->Position(_position);
 	}
 	void OnCollisionEnter(GameObject* obj) override {
 
 		if (dynamic_cast<Hero*>(obj)) { std::cout << "Hero collided\n"; return; } //For now dont let the bullet get destroyed.
-		std::cout << "Destroying the projectile\n";
-		//delete this;
+		if (Enemy* enemy = dynamic_cast<Enemy*>(obj)) {
+			enemy->Damage(10);
+		}
+		shouldDestroy = true;
 	}
 };
 class WizardHero : public Hero
@@ -231,7 +237,7 @@ public:
 		if (shootOnce != 0) return nullptr;
 		shootOnce++;
 		dir.Normalise();
-		CustomMath::Vector3 pos = _position + dir * 3.0f;
+		CustomMath::Vector3 pos = _position + dir * 1.0f;
 		Projectile* newProj = new Projectile(pos,dir);
 		//std::cout << "The wizard is attacking\n";
 		return newProj;
