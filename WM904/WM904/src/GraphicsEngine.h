@@ -47,6 +47,7 @@ public:
 	SpriteDefinition* GetTileDef(Tiles tile) { return tileSpriteDefs[(int)tile]; }
 	SpriteDefinition* GetTileDef(int index) { return tileSpriteDefs[index]; }
 	SpriteDefinition** GetTileDef() { return tileSpriteDefs; }
+	SpriteDefinition** GetSpriteDef() { return spriteDefs; }
 
 	Camera2D* GetCamera() { return _mainCamera; }
 	//void DrawSprite(Here will be a Sprite class.);// Function to draw a given sprite. Will be usefull when implementing game objects etc.

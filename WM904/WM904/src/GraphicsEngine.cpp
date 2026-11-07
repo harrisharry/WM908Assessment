@@ -30,6 +30,7 @@ void GraphicsEngine::StartUp(DataStructures::List<GameObject*>& objects,int size
 	//_loadedSprites[5] = monstersSheet;
 
 	SpriteSheet* characterSheet = new SpriteSheet("./Resources/monsters.png");
+	SpriteSheet* tileSheet = new SpriteSheet("./Resources/tiles.png");
 
 	//Define sprite definitions for easy use in the sprite sheet.
 	SpriteDefinition* wizard = new SpriteDefinition(1,0,characterSheet);
@@ -38,13 +39,17 @@ void GraphicsEngine::StartUp(DataStructures::List<GameObject*>& objects,int size
 	SpriteDefinition* skeleton_sword = new SpriteDefinition(0, 4, characterSheet);
 	spriteDefs[1] = skeleton_sword;
 
-	SpriteSheet* tileSheet = new SpriteSheet("./Resources/tiles.png");
+
+
 
 	SpriteDefinition* backgroundTile = new SpriteDefinition(0,13,tileSheet);
 	tileSpriteDefs[(int)Background] = backgroundTile;
 
 	SpriteDefinition* wallTile = new SpriteDefinition(0, 2, tileSheet);
 	tileSpriteDefs[(int)Wall] = wallTile;
+
+	SpriteDefinition* spawned_enemy = new SpriteDefinition(14, 16, tileSheet);
+	tileSpriteDefs[(int)Spawned] = spawned_enemy;
 
 
 

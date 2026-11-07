@@ -31,24 +31,35 @@ int main() {
     physics.StartUp(gameObjects);
 
 
-    static ObjectFactory* factory = new ObjectFactory(&gameObjects);
-    TileManager tileManager(graphics.GetTileDef());
-    tileManager.LoadMap("./Resources/smallMap.txt",gameObjects);
+    ObjectFactory* factory = new ObjectFactory(&gameObjects);
+    TileManager tileManager(graphics.GetTileDef(),graphics.GetSpriteDef());
     
+
 
     Hero* hero = new WizardHero; //Create the object.
     hero->Position(CustomMath::Vector3(1,1,0));
     //Set the sprite of the object using the preloaded ones from the graphics engine.
     hero->SetSprite(graphics.GetSpriteDef(Wizard));
+
+    tileManager.SetHeroRef(hero);
+    tileManager.SetFactory(factory);
+    tileManager.LoadMap("./Resources/smallMap.txt", gameObjects);
+
+
     gameObjects.Add(hero); //Add it to the gameobjects list.
 
-    Enemy* anotherObject = new Enemy(hero);
-    anotherObject->Position(Vector3(8, 1, 0));
-    SphereCollider* collider1 = new SphereCollider(.5f, Vector3(2, 0, 0));
-    collider1->Move(true);
-    anotherObject->SetCollider(collider1);
-    anotherObject->SetSprite(graphics.GetSpriteDef(Skeleton_Sword));
-    gameObjects.Add(anotherObject);
+    //Spawner* spawner = new Spawner(CustomMath::Vector3(3,0,0),hero,factory);
+    //spawner->SetSprite(graphics.GetSpriteDef(Spawned));
+    //spawner->SetSpawnedSprite(graphics.GetSpriteDef(Skeleton_Sword));
+    //gameObjects.Add(spawner);
+
+    //Enemy* anotherObject = new Enemy(hero);
+    //anotherObject->Position(Vector3(8, 1, 0));
+    //SphereCollider* collider1 = new SphereCollider(.5f, Vector3(2, 0, 0));
+    //collider1->Move(true);
+    //anotherObject->SetCollider(collider1);
+    //anotherObject->SetSprite(graphics.GetSpriteDef(Skeleton_Sword));
+    //gameObjects.Add(anotherObject);
  
 
     // Create a canvas window with dimensions 1024x768 and title “Tiles"

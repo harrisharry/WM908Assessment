@@ -33,12 +33,23 @@ void TileManager::LoadMap(std::string fileToLoad, DataStructures::List<GameObjec
 
 			switch (currentValue)
 			{
-			case 1: //If the value is 1, set the sprite to be the wall.
+			case 1: { //If the value is 1, set the sprite to be the wall.
 				object = new WallTile(CustomMath::Vector3(pos.x, pos.y, 0));
 				object->Position(pos);
 				object->SetSprite(tileDefsPointer[(int)Wall]);
 				break;
+			}
 
+			case 2: {
+				Spawner* spawned = new Spawner(CustomMath::Vector3(pos.x, pos.y, 0), _heroRef, facRef);
+
+				spawned->Position(pos);
+				spawned->SetSprite(tileDefsPointer[(int)Spawned]);
+				spawned->SetSpawnedSprite(spriteDefsPointer[(int)Skeleton_Sword]);
+				object = dynamic_cast<Spawner*>(spawned);
+
+				break;
+			}
 			default: //If value is 0, set the sprite to be the background.
 				object = new GameObject();
 				object->Position(pos);

@@ -10,7 +10,8 @@ static enum Sprites
 };
 static enum Tiles {
 	Background,
-	Wall
+	Wall,
+	Spawned
 };
 
 class SpriteSheet {

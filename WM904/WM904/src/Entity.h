@@ -5,6 +5,7 @@
 #include "Collider.h"
 #include "SpriteSheet.h"
 #include "Timer.h"
+#include "ObjectFactory.h"
 class Entity {
 protected:
 	CustomMath::Vector3 _position = CustomMath::Vector3::Zero();
@@ -131,16 +132,17 @@ public:
 class Hero;
 class Enemy : public Character
 {
-private:
+protected:
 	Hero* heroToFollow;
 	float detectionRange = 3.0f;
 public:
-	//Enemy() {
-
-	//}
+	Enemy() {
+		_collider = new SphereCollider(0.5f);
+	}
 	Enemy(Hero* hero) {
 		heroToFollow = hero;
 		speed = 0.05f;
+		_collider = new SphereCollider(0.5f);
 	}
 
 	virtual void Update(float deltaTime) override {
@@ -157,6 +159,41 @@ public:
 	}
 
 	void FollowPlayer(float deltaTime);
+};
+class Spawner : public Enemy
+{
+	Time::Timer timer;
+	ObjectFactory* facRef; 
+	SpriteDefinition* defToSpawn;
+	float spawnTime = 2;
+public:
+	Spawner(CustomMath::Vector3 pos,
+			Hero* hero,
+			ObjectFactory* fac) : Enemy(hero)
+	{
+		_position = pos;
+		_collider = new SphereCollider(.5f);
+		_collider->Move(false);
+		facRef = fac;
+		timer.Start();
+	}
+	virtual void Update(float deltaTinme) override
+	{
+		SpawnEnemy();
+	}
+	void SpawnEnemy() {
+		timer.Stop();
+		if (timer.Duration() < spawnTime * 1000) return;
+		Enemy* newEnemy = new Enemy(heroToFollow);
+		newEnemy->Position(_position);
+		newEnemy->SetSprite(defToSpawn);
+		facRef->AddObject(newEnemy);
+		timer.Start();
+	}
+	void SetSpawnedSprite(SpriteDefinition* def)
+	{
+		defToSpawn = def;
+	}
 };
 class Hero : public Character //Base hero class, implements health speed and movement but can be overwritten by other classes.
 {
@@ -220,7 +257,6 @@ public:
 
 		ProgressProjectile(deltaTime);
 		_collider->Position(_position);
-	}
 	}
 	void OnCollisionEnter(GameObject* obj) override {
 		if (shouldDestroy) return;
