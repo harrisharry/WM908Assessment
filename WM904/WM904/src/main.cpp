@@ -11,6 +11,7 @@
 #include "PhysicsEngine.h"
 #include "TileManager.h"
 #include "ObjectFactory.h"
+#include "Timer.h"
 
 using namespace std;
 using namespace CustomMath;
@@ -57,6 +58,8 @@ int main() {
     //Main loop of the engine / system.
     while (running)
     {
+        //Time::Timer newTimer;
+        //newTimer.Start();
         //Check if the graphics engine has detected that it needs to close.
         if (graphics.ShouldClose()) break;
 
@@ -91,6 +94,9 @@ int main() {
         graphics.GetCamera()->Position(Vector2(hero->Position().x,hero->Position().y));
         physics.Update(0.0166);
         graphics.Update(0.0166);
+
+        //newTimer.Stop();
+        //std::cout << "Time took is " << newTimer.Duration() << std::endl;
 
     }
     

@@ -33,6 +33,7 @@
     <ClInclude Include="src\ShapeDrawer.h" />
     <ClInclude Include="src\SpriteSheet.h" />
     <ClInclude Include="src\TileManager.h" />
+    <ClInclude Include="src\Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Camera2D.cpp" />

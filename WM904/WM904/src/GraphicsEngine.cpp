@@ -1,7 +1,6 @@
 #include "GraphicsEngine.h"
 #include <iostream>
 
-SpriteSheet* characterSheet;
 /// <summary>
 /// Called when starting up the graphics engine. Default creates a window.
 /// </summary>
@@ -30,7 +29,7 @@ void GraphicsEngine::StartUp(DataStructures::List<GameObject*>& objects,int size
 	monstersSheet->load("./Resources/monsters.png");
 	//_loadedSprites[5] = monstersSheet;
 
-	characterSheet = new SpriteSheet("./Resources/monsters.png");
+	SpriteSheet* characterSheet = new SpriteSheet("./Resources/monsters.png");
 
 	//Define sprite definitions for easy use in the sprite sheet.
 	SpriteDefinition* wizard = new SpriteDefinition(1,0,characterSheet);
@@ -118,6 +117,7 @@ bool GraphicsEngine::DrawImage(unsigned int indexX, unsigned int indexY, SpriteS
 	return true;
 }
 bool GraphicsEngine::DrawImage(SpriteDefinition* def, CustomMath::Vector3 position) {
+	if (def == nullptr) { return false; }
 	if (def->GetSpriteSheet() == nullptr) {
 		return false;
 	}

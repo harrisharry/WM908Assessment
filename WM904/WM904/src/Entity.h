@@ -4,6 +4,7 @@
 #include "GamesEngineeringBase.h"
 #include "Collider.h"
 #include "SpriteSheet.h"
+#include "Timer.h"
 class Entity {
 protected:
 	CustomMath::Vector3 _position = CustomMath::Vector3::Zero();
@@ -216,30 +217,33 @@ public:
 	}
 	void OnCollisionEnter(GameObject* obj) override {
 
-		if (dynamic_cast<Hero*>(obj)) { std::cout << "Hero collided\n"; return; } //For now dont let the bullet get destroyed.
+		if (dynamic_cast<Hero*>(obj)) { return; } //For now dont let the bullet get destroyed.
 		if (Enemy* enemy = dynamic_cast<Enemy*>(obj)) {
 			enemy->Damage(10);
 		}
+		//_spriteDef = nullptr;
 		shouldDestroy = true;
 	}
 };
 class WizardHero : public Hero
 {
 protected:
-	
-	int shootOnce = 0;
+	Time::Timer timer;
+	float shootCooldown = 2; //In seconds
 public:
 	WizardHero() :  Hero() {
-		
+		timer.Start();
 	}
 	virtual GameObject* Attack(CustomMath::Vector3 dir) override
 	{
-		if (shootOnce != 0) return nullptr;
-		shootOnce++;
+		timer.Stop(); //Stop the end time to check how long it has been.
+		double duration = timer.Duration();
+		std::cout << "Time since last attack" << duration << std::endl;
+		if (duration < shootCooldown * 1000) return nullptr; //Check it has been long enough, convrts seconds into miliseconds.
 		dir.Normalise();
 		CustomMath::Vector3 pos = _position + dir * 1.0f;
 		Projectile* newProj = new Projectile(pos,dir);
-		//std::cout << "The wizard is attacking\n";
+		timer.Start(); //Restart the start of the timer.
 		return newProj;
 	}
 };
