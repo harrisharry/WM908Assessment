@@ -183,8 +183,9 @@ public:
 			Damage(10);
 		}
 	}
-	virtual void Attack(CustomMath::Vector3 dir) {
+	virtual GameObject* Attack(CustomMath::Vector3 dir) {
 		std::cout << "Attacking\n";
+		return nullptr;
 	}
 	void SetInputVec(CustomMath::Vector2 newInput) {
 		newInput.Normalise();
@@ -192,16 +193,47 @@ public:
 	}
 
 };
+class Projectile : public GameObject {
+protected:
+	CustomMath::Vector3 _direction = CustomMath::Vector3::Zero();
+	float speed = .05f;
+	void ProgressProjectile(float deltaTime) {
+		_position = _position + _direction * speed * deltaTime;
+	}
+public:
+	Projectile(CustomMath::Vector3 pos, CustomMath::Vector3 dir) {
+		_position = pos;
+		_direction = dir;
+		_collider = new SphereCollider(.15f, _position);
+	}
+	void Update(float deltaTime) override {
+
+		ProgressProjectile(deltaTime);
+	}
+	void OnCollisionEnter(GameObject* obj) override {
+
+		if (dynamic_cast<Hero*>(obj)) { std::cout << "Hero collided\n"; return; } //For now dont let the bullet get destroyed.
+		std::cout << "Destroying the projectile\n";
+		//delete this;
+	}
+};
 class WizardHero : public Hero
 {
 protected:
 	
+	int shootOnce = 0;
 public:
 	WizardHero() :  Hero() {
 		
 	}
-	virtual void Attack(CustomMath::Vector3 dir) override
+	virtual GameObject* Attack(CustomMath::Vector3 dir) override
 	{
-		std::cout << "The wizard is attacking\n";
+		if (shootOnce != 0) return nullptr;
+		shootOnce++;
+		dir.Normalise();
+		CustomMath::Vector3 pos = _position + dir * 3.0f;
+		Projectile* newProj = new Projectile(pos,dir);
+		//std::cout << "The wizard is attacking\n";
+		return newProj;
 	}
 };

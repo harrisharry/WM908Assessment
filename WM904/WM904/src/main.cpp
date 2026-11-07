@@ -10,6 +10,7 @@
 #include "DStructures.h"
 #include "PhysicsEngine.h"
 #include "TileManager.h"
+#include "ObjectFactory.h"
 
 using namespace std;
 using namespace CustomMath;
@@ -29,9 +30,9 @@ int main() {
     physics.StartUp(gameObjects);
 
 
-
+    static ObjectFactory* factory = new ObjectFactory(&gameObjects);
     TileManager tileManager(graphics.GetTileDef());
-    tileManager.LoadMap("./Resources/smallMap.txt",gameObjects);
+    //tileManager.LoadMap("./Resources/smallMap.txt",gameObjects);
     
 
     Hero* hero = new WizardHero; //Create the object.
@@ -40,13 +41,13 @@ int main() {
     hero->SetSprite(graphics.GetSpriteDef(Wizard));
     gameObjects.Add(hero); //Add it to the gameobjects list.
 
-    Enemy* anotherObject = new Enemy(hero);
-    anotherObject->Position(Vector3(3, 1, 0));
-    SphereCollider* collider1 = new SphereCollider(.5f, Vector3(2, 0, 0));
-    collider1->Move(true);
-    anotherObject->SetCollider(collider1);
-    anotherObject->SetSprite(graphics.GetSpriteDef(Skeleton_Sword));
-    gameObjects.Add(anotherObject);
+    //Enemy* anotherObject = new Enemy(hero);
+    //anotherObject->Position(Vector3(3, 1, 0));
+    //SphereCollider* collider1 = new SphereCollider(.5f, Vector3(2, 0, 0));
+    //collider1->Move(true);
+    //anotherObject->SetCollider(collider1);
+    //anotherObject->SetSprite(graphics.GetSpriteDef(Skeleton_Sword));
+    //gameObjects.Add(anotherObject);
  
 
     // Create a canvas window with dimensions 1024x768 and title “Tiles"
@@ -69,12 +70,17 @@ int main() {
         if (graphics.GetWindow()->keyPressed('D'))
             totalInput += CustomMath::Vector2(1, 0);
         if (graphics.GetWindow()->mouseButtonPressed(MouseLeft)) {
-            std::cout << "Left mouse clicked.\n";
+            //std::cout << "Left mouse clicked.\n";
             int x = graphics.GetWindow()->getMouseX();
             int y = graphics.GetWindow()->getMouseY();
 
-            CustomMath::Vector2 dir = CustomMath::Vector2(x,y) - CustomMath::Vector2(hero->Position().x,hero->Position().y);
-            hero->Attack(dir);
+            //Convers to world position by adding the cam pos and - the cam offset.
+            CustomMath::Vector2 dir = CustomMath::Vector2(x,y) + graphics.GetCamera()->Position() - graphics.GetCamera()->Offset() - CustomMath::Vector2(hero->Position().x, hero->Position().y);
+            GameObject* proj = hero->Attack(dir);
+            if (proj != nullptr) {
+                proj->SetSprite(graphics.GetSpriteDef(Wizard));
+                factory->AddObject(proj);
+            }
         }
 
         hero->SetInputVec(totalInput);

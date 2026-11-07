@@ -27,6 +27,7 @@
     <ClInclude Include="src\GamesEngineeringBase.h" />
     <ClInclude Include="src\GraphicsEngine.h" />
     <ClInclude Include="src\Mathf.h" />
+    <ClInclude Include="src\ObjectFactory.h" />
     <ClInclude Include="src\PhysicsEngine.h" />
     <ClInclude Include="src\Shape.h" />
     <ClInclude Include="src\ShapeDrawer.h" />
