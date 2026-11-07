@@ -9,14 +9,17 @@ void PhysicsEngine::Update(float deltaTime) {
 
 	for (auto it = gameObjects->Begin(); it != gameObjects->End(); it++) {
 
+		
 		Collider* current = it->data->Collider();
 		if (current == nullptr) {
 			continue; 
 		}
+		if (!current->Active()) continue;
 		for (auto it2 = gameObjects->Begin(); it2 != gameObjects->End(); it2++)
 		{
 			Collider* toCheck = it2->data->Collider();
 			if (toCheck == nullptr) continue;
+			if (!toCheck->Active()) continue;
 			if (current == toCheck) continue;
 			if (current->CheckCollision(toCheck)) {
 				

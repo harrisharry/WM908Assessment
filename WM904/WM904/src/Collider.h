@@ -10,6 +10,7 @@ class Collider
 {
 protected:
 	CustomMath::Vector3 _position = CustomMath::Vector3::Zero();
+	bool _active = true;
 	bool moves = true;
 
 public:
@@ -31,6 +32,8 @@ public:
 	bool Move() {
 		return moves;
 	}
+	void Active(bool active) { _active = active; }
+	bool Active() { return _active; }
 };
 
 class SphereCollider : public Collider {

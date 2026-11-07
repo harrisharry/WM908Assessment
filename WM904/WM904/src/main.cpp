@@ -42,13 +42,13 @@ int main() {
     hero->SetSprite(graphics.GetSpriteDef(Wizard));
     gameObjects.Add(hero); //Add it to the gameobjects list.
 
-    //Enemy* anotherObject = new Enemy(hero);
-    //anotherObject->Position(Vector3(3, 1, 0));
-    //SphereCollider* collider1 = new SphereCollider(.5f, Vector3(2, 0, 0));
-    //collider1->Move(true);
-    //anotherObject->SetCollider(collider1);
-    //anotherObject->SetSprite(graphics.GetSpriteDef(Skeleton_Sword));
-    //gameObjects.Add(anotherObject);
+    Enemy* anotherObject = new Enemy(hero);
+    anotherObject->Position(Vector3(8, 1, 0));
+    SphereCollider* collider1 = new SphereCollider(.5f, Vector3(2, 0, 0));
+    collider1->Move(true);
+    anotherObject->SetCollider(collider1);
+    anotherObject->SetSprite(graphics.GetSpriteDef(Skeleton_Sword));
+    gameObjects.Add(anotherObject);
  
 
     // Create a canvas window with dimensions 1024x768 and title “Tiles"

@@ -117,7 +117,7 @@ public:
 	void Damage(int damage) {
 		if (damage < 0) { damage *= -1; } //Absolute value.
 		_health -= damage;
-
+		std::cout << "Health is now " << _health << std::endl;
 		//Need to check if dead after damage is taken, and handle death.
 	}
 	virtual void OnCollisionEnter(GameObject* obj) override {
@@ -125,7 +125,7 @@ public:
 
 	}
 	bool CheckDead() {
-		return _health < 0;
+		return _health <= 0;
 	}
 };
 class Hero;
@@ -144,6 +144,12 @@ public:
 	}
 
 	virtual void Update(float deltaTime) override {
+		//std::cout << "Enemy health is " << _health << std::endl;
+		if (CheckDead()) {
+			_collider->Active(false);
+			_spriteDef = nullptr;
+		}
+
 		FollowPlayer(deltaTime);
 		if (_collider != nullptr) {
 			_collider->Position(_position);
@@ -215,13 +221,14 @@ public:
 		ProgressProjectile(deltaTime);
 		_collider->Position(_position);
 	}
+	}
 	void OnCollisionEnter(GameObject* obj) override {
-
+		if (shouldDestroy) return;
 		if (dynamic_cast<Hero*>(obj)) { return; } //For now dont let the bullet get destroyed.
 		if (Enemy* enemy = dynamic_cast<Enemy*>(obj)) {
-			enemy->Damage(10);
+			enemy->Damage(25);
 		}
-		//_spriteDef = nullptr;
+		_spriteDef = nullptr;
 		shouldDestroy = true;
 	}
 };
@@ -238,7 +245,6 @@ public:
 	{
 		timer.Stop(); //Stop the end time to check how long it has been.
 		double duration = timer.Duration();
-		std::cout << "Time since last attack" << duration << std::endl;
 		if (duration < shootCooldown * 1000) return nullptr; //Check it has been long enough, convrts seconds into miliseconds.
 		dir.Normalise();
 		CustomMath::Vector3 pos = _position + dir * 1.0f;
