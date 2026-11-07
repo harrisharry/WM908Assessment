@@ -165,12 +165,13 @@ class Spawner : public Enemy
 	Time::Timer timer;
 	ObjectFactory* facRef; 
 	SpriteDefinition* defToSpawn;
-	float spawnTime = 2;
+	float spawnTime = 5;
 public:
 	Spawner(CustomMath::Vector3 pos,
 			Hero* hero,
 			ObjectFactory* fac) : Enemy(hero)
 	{
+		_health = 50;
 		_position = pos;
 		_collider = new SphereCollider(.5f);
 		_collider->Move(false);
@@ -179,6 +180,7 @@ public:
 	}
 	virtual void Update(float deltaTinme) override
 	{
+		if (CheckDead()) { return; }//Stops spawning enemies.
 		SpawnEnemy();
 	}
 	void SpawnEnemy() {
@@ -193,6 +195,24 @@ public:
 	void SetSpawnedSprite(SpriteDefinition* def)
 	{
 		defToSpawn = def;
+	}
+};
+class Speedster : public Enemy
+{
+protected:
+public:
+	Speedster(Hero* hero) : Enemy(hero){
+		speed = 0.1f;
+		_health = 50;
+	}
+};
+class Giant : public Enemy
+{
+protected:
+public:
+	Giant(Hero* hero) : Enemy(hero) {
+		speed = 0.25f;
+		_health = 150;
 	}
 };
 class Hero : public Character //Base hero class, implements health speed and movement but can be overwritten by other classes.

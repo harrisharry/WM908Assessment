@@ -27,6 +27,7 @@ void SphereCollider::ResolveCollision(Collider* other,GameObject* objToCheck) {
 	other->ResolveCollision(this,objToCheck);
 }
 void SphereCollider::ResolveCollision(SphereCollider* other, GameObject* objToCheck) {
+	
 	CustomMath::Vector3 collisionVector = _position - other->Position();
 	float distance = collisionVector.Magnitude(); //Distance between the two objects needs to be the same as the sum of their radius.
 	collisionVector.Normalise();
@@ -34,6 +35,7 @@ void SphereCollider::ResolveCollision(SphereCollider* other, GameObject* objToCh
 	float depth = radiusSum - distance; //The amount that each sphere is inside eachother.
 
 	CustomMath::Vector3 newPos = this->Position() + collisionVector * depth;
+	if ((!objToCheck->Collider()->Move())) return;
 	objToCheck->Position(newPos);
 
 

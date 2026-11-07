@@ -42,23 +42,23 @@ void TileManager::LoadMap(std::string fileToLoad, DataStructures::List<GameObjec
 
 			case 2: {
 				Spawner* spawned = new Spawner(CustomMath::Vector3(pos.x, pos.y, 0), _heroRef, facRef);
-
-				spawned->Position(pos);
 				spawned->SetSprite(tileDefsPointer[(int)Spawned]);
 				spawned->SetSpawnedSprite(spriteDefsPointer[(int)Skeleton_Sword]);
+				spawned->Position(pos);
+				spawned->Collider()->Move(false);
+				spawned->Collider()->Position(pos);
 				object = dynamic_cast<Spawner*>(spawned);
 
 				break;
 			}
-			default: //If value is 0, set the sprite to be the background.
+			default: { //If value is 0, set the sprite to be the background.
 				object = new GameObject();
 				object->Position(pos);
 				object->SetSprite(tileDefsPointer[(int)Background]);
 
 				break;
-
 			}
-			
+			}
 			listToAdd.Add(object);
 			tileMap[index] = object;
 		}
