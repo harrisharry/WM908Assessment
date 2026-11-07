@@ -31,6 +31,7 @@ void GraphicsEngine::StartUp(DataStructures::List<GameObject*>& objects,int size
 
 	SpriteSheet* characterSheet = new SpriteSheet("./Resources/monsters.png");
 	SpriteSheet* tileSheet = new SpriteSheet("./Resources/tiles.png");
+	numberSheet = new SpriteSheet("./Resources/numbers.png");
 
 	//Define sprite definitions for easy use in the sprite sheet.
 	SpriteDefinition* wizard = new SpriteDefinition(1,0,characterSheet);
@@ -194,6 +195,19 @@ bool GraphicsEngine::DrawImage(const GamesEngineeringBase::Image* imageToDraw, C
 		}
 	}
 	return true;
+}
+void GraphicsEngine::DrawNumber(int number, CustomMath::Vector3 position) {
+
+	if (number > 9 || number < 0) return;
+	for (int i = 0; i++; i < 16) {
+		for (int j = 0; j < 16; j++)
+		{
+
+			unsigned int pixelIndex = i + position.x * 16 /*width*/ + j + position.y;
+			_mainCanvas->draw(i,j,&numberSheet->SheetData()->data[pixelIndex]);
+		}
+	}
+
 }
 void GraphicsEngine::SetBackground(Colour::Colour colour) {
 

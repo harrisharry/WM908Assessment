@@ -23,6 +23,7 @@ private:
 	DataStructures::List<GameObject*>* gameObjects;
 	SpriteDefinition* spriteDefs[5];
 	SpriteDefinition* tileSpriteDefs[5];
+	SpriteSheet* numberSheet;
 	GamesEngineeringBase::Image* _loadedSprites[5];
 	Colour::Colour defaultColour = Colour::Colour(128,0,128);
 	ShapeDrawer2D* _shapeManager;
@@ -37,6 +38,7 @@ public:
 	bool DrawImage(unsigned int indexX, unsigned int indexY, SpriteSheet* spriteSheet, CustomMath::Vector3 position);
 	bool DrawImage(SpriteDefinition* def, CustomMath::Vector3 position);
 	bool DrawImage(const GamesEngineeringBase::Image* imageToDraw, CustomMath::Vector3 position);
+	void DrawNumber(int number,CustomMath::Vector3 position);
 	bool ShouldClose();
 	GamesEngineeringBase::Image* GetSpriteAtIndex(unsigned int index) {
 		return _loadedSprites[index];

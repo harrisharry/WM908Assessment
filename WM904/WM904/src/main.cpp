@@ -21,6 +21,7 @@ enum SpriteIndex {
 };
 
 int main() {
+    unsigned int frames = 0;
 
     DataStructures::List<GameObject*> gameObjects;
 
@@ -67,10 +68,11 @@ int main() {
 
     //Loader::LoadFile("./Resources/testText.txt");
     //Main loop of the engine / system.
+    Time::Timer fpsTimer;
+    float fps = 0;
+    fpsTimer.Start();
     while (running)
     {
-        //Time::Timer newTimer;
-        //newTimer.Start();
         //Check if the graphics engine has detected that it needs to close.
         if (graphics.ShouldClose()) break;
 
@@ -108,7 +110,16 @@ int main() {
 
         //newTimer.Stop();
         //std::cout << "Time took is " << newTimer.Duration() << std::endl;
-
+        fpsTimer.Stop();
+        frames++;
+        double time = fpsTimer.Duration(); 
+        if (time >= 500) {
+            std::cout << "Frames passed: " << frames << std::endl;
+            fps = (frames * 1000) / time;
+            frames = 0;
+            fpsTimer.Start();
+        }
+        
     }
     
 
