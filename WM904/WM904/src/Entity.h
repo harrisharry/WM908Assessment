@@ -109,7 +109,7 @@ class Character : public GameObject
 protected:
 	int _maxHealth = 100;
 	float _health = 0;
-	float speed = 8.0f;
+	float speed = 5.0f;
 
 public:
 	Character() {
@@ -141,7 +141,7 @@ public:
 	}
 	Enemy(Hero* hero) {
 		heroToFollow = hero;
-		speed = 5;
+		speed = 3;
 		_collider = new SphereCollider(0.5f);
 	}
 
@@ -202,7 +202,7 @@ class Speedster : public Enemy
 protected:
 public:
 	Speedster(Hero* hero) : Enemy(hero){
-		speed = 7.0f;
+		speed = 4.0f;
 		_health = 25;
 	}
 };
@@ -211,7 +211,7 @@ class Giant : public Enemy
 protected:
 public:
 	Giant(Hero* hero) : Enemy(hero) {
-		speed = 3.0f;
+		speed = 1.0f;
 		_health = 150;
 	}
 };
