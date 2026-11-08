@@ -76,7 +76,6 @@ int main() {
     {
         deltaTimeTimer.Stop();
         float deltaTime = deltaTimeTimer.Duration() / 1000; //time passed in miliseconds, we want it in seconds.
-        std::cout << "Delta is" << deltaTime << std::endl;
         deltaTimeTimer.Start();
         //Check if the graphics engine has detected that it needs to close.
         if (graphics.ShouldClose()) break;

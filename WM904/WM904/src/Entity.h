@@ -263,7 +263,7 @@ public:
 class Projectile : public GameObject {
 protected:
 	CustomMath::Vector3 _direction = CustomMath::Vector3::Zero();
-	float speed = .05f;
+	float speed = 5.0f;
 	void ProgressProjectile(float deltaTime) {
 		_position = _position + _direction * speed * deltaTime;
 	}
