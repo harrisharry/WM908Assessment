@@ -69,10 +69,15 @@ int main() {
     //Loader::LoadFile("./Resources/testText.txt");
     //Main loop of the engine / system.
     Time::Timer fpsTimer;
+    Time::Timer deltaTimeTimer;
     float fps = 0;
     fpsTimer.Start();
     while (running)
     {
+        deltaTimeTimer.Stop();
+        float deltaTime = deltaTimeTimer.Duration() / 1000; //time passed in miliseconds, we want it in seconds.
+        std::cout << "Delta is" << deltaTime << std::endl;
+        deltaTimeTimer.Start();
         //Check if the graphics engine has detected that it needs to close.
         if (graphics.ShouldClose()) break;
 
@@ -102,11 +107,11 @@ int main() {
         hero->SetInputVec(totalInput);
 
         for (auto it = gameObjects.Begin(); it != gameObjects.End(); it++) {
-            it->data->Update(0.0166); //Update all game objects.
+            it->data->Update(deltaTime); //Update all game objects.
         }
         graphics.GetCamera()->Position(Vector2(hero->Position().x,hero->Position().y));
-        physics.Update(0.0166);
-        graphics.Update(0.0166);
+        physics.Update(deltaTime);
+        graphics.Update(deltaTime);
 
         //newTimer.Stop();
         //std::cout << "Time took is " << newTimer.Duration() << std::endl;
